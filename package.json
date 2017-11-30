@@ -1,0 +1,23 @@
+{
+  "name": "nbaapp",
+  "version": "1.0.0",
+  "description": "fantasy data stuff",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MisterSquishy/nba-stats-stuff.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MisterSquishy/nba-stats-stuff/issues"
+  },
+  "homepage": "https://github.com/MisterSquishy/nba-stats-stuff#readme",
+  "dependencies": {
+    "chart": "^0.1.2",
+    "express": "^4.16.2"
+  }
+}
