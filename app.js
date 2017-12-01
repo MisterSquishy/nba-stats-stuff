@@ -1,9 +1,10 @@
 var express = require('express');
 var chart = require('chart');
+require('./callouts')();
 var app = express();
 
 app.get('/', function (req, res) {
-  res.send('Hello World!');
+  performRequest('/stats/commonallplayers', 'GET', {'LeagueID':'00','Season':'2017-18','IsOnlyCurrentSeason':'1'}, () => res.send(), () => res.send());
 });
 
 app.listen(3000, function () {
