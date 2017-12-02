@@ -1,10 +1,24 @@
 var express = require('express');
-var chart = require('chart');
+var pug = require('pug');
+const compiledFunction = pug.compileFile('./templates/home.pug');
+
+
+const emitter = require('./globalEmitter');
 require('./callouts')();
 var app = express();
 
 app.get('/', function (req, res) {
-  performRequest('/stats/commonallplayers', 'GET', {'LeagueID':'00','Season':'2017-18','IsOnlyCurrentSeason':'1'}, res.send.bind(res), res.send.bind(res));
+  emitter.on('calloutsuccess', function(result) {
+    console.log(result);
+    res.send(compiledFunction({
+
+    }));
+  });
+  emitter.on('calloutserror', function(err) {
+    res.send(err);
+  });
+  performRequest('/stats/commonallplayers', 'GET', {'LeagueID':'00','Season':'2017-18','IsOnlyCurrentSeason':'1'});
+
 });
 
 app.listen(3000, function () {
