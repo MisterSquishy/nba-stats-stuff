@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/MisterSquishy/nba-stats-stuff#readme",
   "dependencies": {
-    "chart": "^0.1.2",
+    "chart.js": "^2.7.1",
     "express": "^4.16.2"
   }
 }
