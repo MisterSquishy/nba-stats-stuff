@@ -7,7 +7,9 @@ var sessionId;
 module.exports = function() {
   this.performRequest = function(endpoint, method, data, success, failure) {
     var dataString = JSON.stringify(data);
-    var headers = { //black magic
+    //nba.com: "I only respond to requests from browsers"
+    //also nba.com: "Hi browser, here's a raw data table formatted as JSON"
+    var headers = {
       'user-agent': ('Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36'),
       'Dnt': ('1'),
       'Accept-Encoding': ('utf-8'),
@@ -43,9 +45,9 @@ module.exports = function() {
 
       res.on('end', function() {
         console.log('HAPPY FACE');
-        console.log(responseString);
         var responseObject = JSON.parse(responseString);
-        success(responseObject);
+        console.log(responseObject);
+        success(responseObject.resultSets[0]);
       });
     });
 
