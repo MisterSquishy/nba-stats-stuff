@@ -9,9 +9,13 @@ var app = express();
 
 app.get('/', function (req, res) {
   emitter.on('calloutsuccess', function(result) {
-    console.log(result);
+    var formattedHeaders = [];
+    for (var key in result.headers) {
+      formattedHeaders.push({title:result.headers[key]}); //todo seriously??
+    }
     res.send(compiledFunction({
-
+      headers:JSON.stringify(formattedHeaders),
+      rowSet:JSON.stringify(result.rowSet)
     }));
   });
   emitter.on('calloutserror', function(err) {
@@ -20,7 +24,7 @@ app.get('/', function (req, res) {
   performRequest('/stats/leaguedashplayerstats', 'GET', {'SeasonType':'Regular Season',
                                                           'MeasureType':'Base',
                                                           'PerMode':'Totals',
-                                                          'PlusMinus':'Y',
+                                                          'PlusMinus':'N',
                                                           'PaceAdjust':'N',
                                                           'Rank':'N',
                                                           'Season':'2017-18',
