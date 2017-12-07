@@ -1,10 +1,11 @@
 var express = require('express');
 var pug = require('pug');
+var NBAAPIConstants = require('./Utils/NBAAPIConstants');
+var FantasyConstants = require('./Utils/FantasyConstants');
 const compiledFunction = pug.compileFile('./templates/home.pug');
 
-
-const emitter = require('./globalEmitter');
-require('./callouts')();
+const emitter = require('./Utils/globalEmitter');
+require('./Utils/callouts')();
 var app = express();
 
 app.get('/', function (req, res) {
