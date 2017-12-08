@@ -1,51 +1,28 @@
 var express = require('express');
 var pug = require('pug');
+var callouts = require('./Utils/callouts');
 var NBAAPIConstants = require('./Utils/NBAAPIConstants');
 var FantasyConstants = require('./Utils/FantasyConstants');
+var dataReformatter = require('./Utils/dataReformatter');
 const compiledFunction = pug.compileFile('./templates/home.pug');
 
 const emitter = require('./Utils/globalEmitter');
-require('./Utils/callouts')();
 var app = express();
 
 app.get('/', function (req, res) {
   emitter.on('calloutsuccess', function(result) {
-    var formattedHeaders = [];
-    for (var key in result.headers) {
-      formattedHeaders.push({title:result.headers[key]}); //todo seriously??
-    }
+    var formattedData = dataReformatter.reformatNBAPlayerDashboard('LEAGUE_DASHBOARD_API', result.headers, result.rowSet);
     res.send(compiledFunction({
-      headers:JSON.stringify(formattedHeaders),
-      rowSet:JSON.stringify(result.rowSet)
+      headers:formattedData[0],
+      rowSet:formattedData[1],
+      teamRosters:JSON.stringify(FantasyConstants)
     }));
   });
   emitter.on('calloutserror', function(err) {
     res.send(err);
   });
-  performRequest('/stats/leaguedashplayerstats', 'GET', {'SeasonType':'Regular Season',
-                                                          'MeasureType':'Base',
-                                                          'PerMode':'Totals',
-                                                          'PlusMinus':'N',
-                                                          'PaceAdjust':'N',
-                                                          'Rank':'N',
-                                                          'Season':'2017-18',
-                                                          'Month':'0',
-                                                          'LastNGames':'0',
-                                                          'Period':'0',
-                                                          'OpponentTeamID':'0',
-                                                          'DateFrom':'',
-                                                          'DateTo':'',
-                                                          'VsConference':'',
-                                                          'GameSegment':'',
-                                                          'SeasonSegment':'',
-                                                          'GameScope':'',
-                                                          'PlayerExperience':'',
-                                                          'PlayerPosition':'',
-                                                          'StarterBench':'',
-                                                          'VsDivision':'',
-                                                          'Outcome':'',
-                                                          'Location':''});
-  // performRequest('/stats/commonallplayers', 'GET', {'LeagueID':'00','Season':'2017-18','IsOnlyCurrentSeason':'1'});
+  callouts.performRequest(NBAAPIConstants.LEAGUE_DASHBOARD_API.URI, 'GET', NBAAPIConstants.LEAGUE_DASHBOARD_API.Params);
+  // callouts.performRequest('/players/'+LastName+'/'+FirstName, 'GET', null, true); //todo images??
 
 });
 

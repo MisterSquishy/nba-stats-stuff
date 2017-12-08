@@ -1,6 +1,6 @@
 var NBAAPIConstants = require('./NBAAPIConstants');
 module.exports = {
-  davidsTheYounger : [
+  DavidsTheYounger : [
                       "Giannis Antetokounmpo",
                       "Andre Drummond",
                       "Russell Westbrook",
@@ -19,7 +19,7 @@ module.exports = {
                       "Kyle Kuzma",
                       "James Johnson"
                     ],
-  davidsTheWiser : [
+  DavidsTheWiser : [
                       "Blake Griffin",
                       "Jimmy Butler",
                       "Aaron Gordon",
