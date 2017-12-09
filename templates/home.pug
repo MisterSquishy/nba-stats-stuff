@@ -16,6 +16,7 @@ script.
     var headers = JSON.parse("#{headers}".replace(/&quot;/g,'"'));
     var fullResults = JSON.parse("#{rowSet}".replace(/&quot;/g,'"'));
     var teamRosters = JSON.parse("#{teamRosters}".replace(/&quot;/g,'"'));
+    var scoringMap = JSON.parse("#{fantasyScoring}".replace(/&quot;/g,'"'));
     var filteredResults = fullResults;
     var hasFooter = false;
     var footerCallback = function (row, data, start, end, display) {

@@ -16,7 +16,8 @@ app.get('/', function (req, res) {
     res.end(compiledFunction({
       headers:formattedData[0],
       rowSet:formattedData[1],
-      teamRosters:JSON.stringify(FantasyConstants)
+      teamRosters:JSON.stringify(FantasyConstants),
+      fantasyScoring:JSON.stringify(FantasyConstants.scoring())
     }));
   });
   emitter.on('calloutserror', function(err) {

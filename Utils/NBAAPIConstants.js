@@ -7,10 +7,12 @@ module.exports = {
   NBA_BLOCKS : 'Blks',
   NBA_FGMADE : 'FGM',
   NBA_FGATTEMPTED : 'FGA',
+  NBA_FGPCT : 'FG%',
   NBA_TURNOVERS : 'TOs',
   //bonus value cats
   NBA_FTMADE : 'FTM',
   NBA_FTATTEMPTED : 'FTA',
+  NBA_FTPCT : 'FT%',
   NBA_MINUTES : 'MIN',
   NBA_PLUSMINUS : '+/-',
   //other column headers
@@ -53,6 +55,7 @@ module.exports = {
               'PTS':'Pts',
               'FGM':'FGM',
               'FGA':'FGA',
+              'FG%':'FG%', //special case, computes %age from prior 2 cols
               'REB':'Reb',
               'AST':'Ast',
               'STL':'Stl',
@@ -60,6 +63,7 @@ module.exports = {
               'TOV':'TO',
               'FTM':'FTM',
               'FTA':'FTA',
+              'FT%':'FT%', //special case, computes %age from prior 2 cols
               'PLUS_MINUS':'+/-'
             }
   }
