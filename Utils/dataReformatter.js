@@ -1,4 +1,5 @@
 var NBAAPIConstants = require('./NBAAPIConstants');
+var FantasyConstants = require('./FantasyConstants');
 module.exports.reformatNBAPlayerDashboard = function(APIName, headers, rowSet) {
     var desiredColIndices = [];
     for (var key in NBAAPIConstants[APIName].DesiredCols) {
@@ -23,10 +24,14 @@ module.exports.reformatNBAPlayerDashboard = function(APIName, headers, rowSet) {
       }
       formattedHeaders.push({title:NBAAPIConstants[APIName].DesiredCols[headers[desiredColIndices[colIndex]]]});
     }
+    formattedHeaders.push({title:"FPts"}); //this is shamefully lazy
 
     var formattedRowSet = [];
     for (var row in rowSet) {
       var formattedRow = [];
+      var fPts = 0;
+      var FGA = 0;
+      var FGM = 0;
       for (var col in desiredColIndices) {
         if (desiredColIndices[col].endsWith('%')) {
           var pct;
@@ -34,9 +39,9 @@ module.exports.reformatNBAPlayerDashboard = function(APIName, headers, rowSet) {
             pct = 0;
           }
           else {
-            pct = 1000 * (parseFloat(rowSet[row][desiredColIndices[col-2]])/parseFloat(rowSet[row][desiredColIndices[col-1]]))
+            pct = 100 * (parseFloat(rowSet[row][desiredColIndices[col-2]])/parseFloat(rowSet[row][desiredColIndices[col-1]]))
           }
-          formattedRow.push(Math.round(pct)/10);
+          formattedRow.push(Math.round(pct*10)/10);
           continue;
         }
 
@@ -44,9 +49,17 @@ module.exports.reformatNBAPlayerDashboard = function(APIName, headers, rowSet) {
           formattedRow.push(rowSet[row][desiredColIndices[col]]);
         }
         else {
-          formattedRow.push(Math.round(parseFloat(rowSet[row][desiredColIndices[col]])));
+          var num = parseFloat(rowSet[row][desiredColIndices[col]]);
+          if (formattedHeaders[col].title === NBAAPIConstants.NBA_FGATTEMPTED) {FGA = num;}
+          else if (formattedHeaders[col].title === NBAAPIConstants.NBA_FGMADE) {FGM = num;}
+          formattedRow.push(Math.round(num));
+          if (!isNaN(parseFloat(FantasyConstants.scoring()[formattedHeaders[col].title]))) {
+            fPts += (num * parseFloat(FantasyConstants.scoring()[formattedHeaders[col].title]));
+          }
         }
       }
+      fPts += (FGA - FGM) * FantasyConstants.scoring()[NBAAPIConstants.NBA_FGATTEMPTED + '-' + NBAAPIConstants.FGMADE]; //yuck
+      formattedRow.push(Math.round(fPts*10)/10);
       formattedRowSet.push(formattedRow);
     }
 

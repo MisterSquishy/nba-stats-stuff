@@ -50,17 +50,16 @@ module.exports = {
     DesiredCols : {
               'PLAYER_NAME':'Name',
               'TEAM_ABBREVIATION':'Team',
-              'GP':'GP',
               'MIN':'Min',
               'PTS':'Pts',
               'FGM':'FGM',
               'FGA':'FGA',
               'FG%':'FG%', //special case, computes %age from prior 2 cols
-              'REB':'Reb',
-              'AST':'Ast',
-              'STL':'Stl',
-              'BLK':'Blk',
-              'TOV':'TO',
+              'REB':'Rebs',
+              'AST':'Asts',
+              'STL':'Stls',
+              'BLK':'Blks',
+              'TOV':'TOs',
               'FTM':'FTM',
               'FTA':'FTA',
               'FT%':'FT%', //special case, computes %age from prior 2 cols

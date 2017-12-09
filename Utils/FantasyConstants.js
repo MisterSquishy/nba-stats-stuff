@@ -46,7 +46,7 @@ module.exports = {
               scoreMap[NBAAPIConstants.NBA_STEALS] = 3;
               scoreMap[NBAAPIConstants.NBA_BLOCKS] = 3;
               scoreMap[NBAAPIConstants.NBA_TURNOVERS] = -1;
-              scoreMap[NBAAPIConstants.NBA_FGMISSED] = -0.5;
+              scoreMap[NBAAPIConstants.NBA_FGATTEMPTED + '-' + NBAAPIConstants.FGMADE] = -0.5;
               return scoreMap;
             }
 }
