@@ -1,8 +1,11 @@
 div(class="main container-fluid text-center")
     div(class="choicesdiv")
-        select(id="teamselect" class="form-control")
-            option(value="DavidsTheYounger") Davids The Younger
-            option(value="DavidsTheWiser") Davids The Wiser
+      select(id="teamselect" class="form-control")
+        option(value="All") Full NBA
+        option(value="DavidsTheYounger") Davids The Younger
+        option(value="DavidsTheWiser") Davids The Wiser
+    div(class="headerdiv")
+      h1 NBA Stats
     div(class="tablediv")
       table(id="statstable" class="display" width="100%")
 script(src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" type="text/javascript")
@@ -14,22 +17,71 @@ script.
     var fullResults = JSON.parse("#{rowSet}".replace(/&quot;/g,'"'));
     var teamRosters = JSON.parse("#{teamRosters}".replace(/&quot;/g,'"'));
     var filteredResults = fullResults;
+    var hasFooter = false;
+    var footerCallback = function (row, data, start, end, display) {
+      var api = this.api(), data;
+
+      // Remove the formatting to get integer data for summation
+      var intVal = function (i) {
+          return typeof i === 'string' ?
+              i.replace(/[\$,]/g, '') * 1 :
+              typeof i === 'number' ?
+              i : 0;
+      };
+
+      //create footer (surely there's a saner way to do this)
+      if (!hasFooter) {
+        var footerHTML = '<tfoot><tr>';
+        this.api().columns().every(function () {
+            footerHTML += '<td/>';
+        });
+        $(this).append(footerHTML + '</tr></tfoot>');
+        hasFooter = true;
+      }
+
+      // Total over this page
+      for (var i in headers) {
+        pageTotal = api
+            .column( i )
+            .data()
+            .reduce(function (a, b) {
+                return intVal(a) + intVal(b);
+            }, 0);
+
+        // Update footer
+        if (i === "0") {
+          $(api.column( i ).footer()).html('Totals:');
+        }
+        else {
+          $(api.column( i ).footer()).html(pageTotal);
+        }
+      }
+    };
     var table = $('#statstable').DataTable( {
+      pageLength: 50,
       columns: headers,
-      data: filteredResults
+      data: filteredResults,
+      footerCallback: footerCallback
     });
     $('#teamselect').change(function() {
       filteredResults = [];
       var roster = teamRosters[$("option:selected", this)[0].value];
-      for (var i in fullResults) {
-        if (roster.includes(fullResults[i][0])) {
-          filteredResults.push(fullResults[i]);
+      if (roster) {
+        for (var i in fullResults) {
+          if (roster.includes(fullResults[i][0])) {
+            filteredResults.push(fullResults[i]);
+          }
         }
       }
-      table.destroy();
+      else {
+        filteredResults = fullResults;
+      }
+      table.destroy(); //can't i just redraw the dang thing??
       table = $('#statstable').DataTable( {
+        pageLength: 50,
         columns: headers,
-        data: filteredResults
+        data: filteredResults,
+        footerCallback: footerCallback
       });
     });
   };

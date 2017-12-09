@@ -18,7 +18,12 @@ module.exports.reformatNBAPlayerDashboard = function(APIName, headers, rowSet) {
     for (var row in rowSet) {
       var formattedRow = [];
       for (var col in desiredColIndices) {
-        formattedRow.push(rowSet[row][desiredColIndices[col]]);
+        if (isNaN(parseFloat(rowSet[row][desiredColIndices[col]]))) {
+          formattedRow.push(rowSet[row][desiredColIndices[col]]);
+        }
+        else {
+          formattedRow.push(Math.round(parseFloat(rowSet[row][desiredColIndices[col]])));
+        }
       }
       formattedRowSet.push(formattedRow);
     }
