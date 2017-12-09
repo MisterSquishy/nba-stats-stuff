@@ -12,7 +12,8 @@ var app = express();
 app.get('/', function (req, res) {
   emitter.on('calloutsuccess', function(result) {
     var formattedData = dataReformatter.reformatNBAPlayerDashboard('LEAGUE_DASHBOARD_API', result.headers, result.rowSet);
-    res.send(compiledFunction({
+
+    res.end(compiledFunction({
       headers:formattedData[0],
       rowSet:formattedData[1],
       teamRosters:JSON.stringify(FantasyConstants)
