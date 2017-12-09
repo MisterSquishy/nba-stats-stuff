@@ -5,9 +5,9 @@ div(class="main container-fluid text-center")
         option(value="DavidsTheYounger") Davids The Younger
         option(value="DavidsTheWiser") Davids The Wiser
       select(id="dateselect" class="form-control")
+        option(value="FullSeason") Full Season
         option(value="Today") Today
         option(value="Yesterday") Yesterday
-        option(value="FullSeason") Full Season
       select(id="pointselect" class="form-control")
         option(value="Real") Real stats
         option(value="Fantasy") Fantasy points
@@ -112,6 +112,52 @@ script.
         pageLength: 50,
         columns: headers,
         data: filteredResults,
+        footerCallback: footerCallback,
+      });
+    });
+    $('#pointselect').change(function() {
+      var opt = $("option:selected", this)[0].value;
+      var displayResults = [];
+      if (opt === 'Real') {
+        displayResults = filteredResults;
+        for (var col in table.columns) {
+          //show the original column set
+          //table.column(col).visible(true);
+        }
+      }
+      else if (opt === 'Fantasy') {
+        for (var row in filteredResults) {
+          displayRow = [];
+          displayHeaders = [];
+          for (var col in filteredResults[row]) {
+            if (isNaN(parseFloat(filteredResults[row][col])) || col == (headers.length - 1)) {
+              displayRow.push(filteredResults[row][col]);
+              table.column(col).visible(true);
+            }
+            else if (scoringMap.hasOwnProperty(headers[col].title)) {
+              displayRow.push(filteredResults[row][col] * scoringMap[headers[col].title]);
+              table.column(col).visible(true);
+            }
+            else if (headers[col].title === 'FGMi') { //hack city
+              displayRow.push(filteredResults[row][col]);
+              table.column(col).visible(true);
+            }
+            else {
+              displayRow.push(filteredResults[row][col]);
+              table.column(col).visible(false);
+            }
+          }
+          displayResults.push(displayRow);
+        }
+      }
+      for (var col in table.columns()) {
+        console.log(table.column(col).visible());
+      }
+      table.destroy(); //can't i just redraw the dang thing??
+      table = $('#statstable').DataTable( {
+        pageLength: 50,
+        columns: headers,
+        data: displayResults,
         footerCallback: footerCallback,
       });
     });

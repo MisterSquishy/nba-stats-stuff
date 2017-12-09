@@ -18,6 +18,9 @@ module.exports.reformatNBAPlayerDashboard = function(APIName, headers, rowSet) {
     var formattedHeaders = [];
     for (var colIndex in desiredColIndices) {
       if (desiredColIndices[colIndex].endsWith('%')) {
+        if (desiredColIndices[colIndex] === NBAAPIConstants.NBA_FGPCT) {
+          formattedHeaders.push({title:"FGMi"});
+        }
         //we compute these columns
         formattedHeaders.push({title:desiredColIndices[colIndex]});
         continue;
@@ -34,6 +37,9 @@ module.exports.reformatNBAPlayerDashboard = function(APIName, headers, rowSet) {
       var FGM = 0;
       for (var col in desiredColIndices) {
         if (desiredColIndices[col].endsWith('%')) {
+          if (desiredColIndices[col] === NBAAPIConstants.NBA_FGPCT) {
+            formattedRow.push(rowSet[row][desiredColIndices[col-1]] - rowSet[row][desiredColIndices[col-2]]);
+          }
           var pct;
           if (parseFloat(rowSet[row][desiredColIndices[col-1]]) === 0) {
             pct = 0;
@@ -50,9 +56,9 @@ module.exports.reformatNBAPlayerDashboard = function(APIName, headers, rowSet) {
         }
         else {
           var num = parseFloat(rowSet[row][desiredColIndices[col]]);
+          formattedRow.push(Math.round(num));
           if (formattedHeaders[col].title === NBAAPIConstants.NBA_FGATTEMPTED) {FGA = num;}
           else if (formattedHeaders[col].title === NBAAPIConstants.NBA_FGMADE) {FGM = num;}
-          formattedRow.push(Math.round(num));
           if (!isNaN(parseFloat(FantasyConstants.scoring()[formattedHeaders[col].title]))) {
             fPts += (num * parseFloat(FantasyConstants.scoring()[formattedHeaders[col].title]));
           }
