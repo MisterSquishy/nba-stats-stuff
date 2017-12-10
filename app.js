@@ -23,7 +23,18 @@ app.get('/', function (req, res) {
   emitter.on('calloutserror', function(err) {
     res.send(err);
   });
-  callouts.performRequest(NBAAPIConstants.LEAGUE_DASHBOARD_API.URI, 'GET', NBAAPIConstants.LEAGUE_DASHBOARD_API.Params);
+
+  var params = NBAAPIConstants.LEAGUE_DASHBOARD_API.Params;
+  var date = new Date();
+  params.DateFrom = date.getDate();
+  params.DateTo = date.getDate();
+  //if no params, figure out if today or yesterday (fallback behavior)
+  if (date.getHours() < 12) {
+    //show yesterday before noon
+    params.DateFrom = params.DateFrom - 1;
+    params.DateTo = params.DateTo - 1;
+  }
+  callouts.performRequest(NBAAPIConstants.LEAGUE_DASHBOARD_API.URI, 'GET', params);
   // callouts.performRequest('/players/'+LastName+'/'+FirstName, 'GET', null, true); //todo images??
 
 });
