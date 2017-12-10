@@ -18,9 +18,6 @@ module.exports.reformatNBAPlayerDashboard = function(APIName, headers, rowSet) {
     var formattedHeaders = [];
     for (var colIndex in desiredColIndices) {
       if (desiredColIndices[colIndex].endsWith('%')) {
-        if (desiredColIndices[colIndex] === NBAAPIConstants.NBA_FGPCT) {
-          formattedHeaders.push({title:"FGMi"});
-        }
         //we compute these columns
         formattedHeaders.push({title:desiredColIndices[colIndex]});
         continue;
@@ -37,9 +34,6 @@ module.exports.reformatNBAPlayerDashboard = function(APIName, headers, rowSet) {
       var FGM = 0;
       for (var col in desiredColIndices) {
         if (desiredColIndices[col].endsWith('%')) {
-          if (desiredColIndices[col] === NBAAPIConstants.NBA_FGPCT) {
-            formattedRow.push(rowSet[row][desiredColIndices[col-1]] - rowSet[row][desiredColIndices[col-2]]);
-          }
           var pct;
           if (parseFloat(rowSet[row][desiredColIndices[col-1]]) === 0) {
             pct = 0;
@@ -64,7 +58,7 @@ module.exports.reformatNBAPlayerDashboard = function(APIName, headers, rowSet) {
           }
         }
       }
-      fPts += (FGA - FGM) * FantasyConstants.scoring()[NBAAPIConstants.NBA_FGATTEMPTED + '-' + NBAAPIConstants.FGMADE]; //yuck
+      fPts += (FGA - FGM) * FantasyConstants.scoring()[NBAAPIConstants.NBA_FGATTEMPTED + '-' + NBAAPIConstants.NBA_FGMADE]; //yuck
       formattedRow.push(Math.round(fPts*10)/10);
       formattedRowSet.push(formattedRow);
     }
