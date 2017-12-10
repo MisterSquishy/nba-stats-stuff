@@ -56,12 +56,24 @@ script.
       else {
         filteredResults = fullResults;
       }
+      var displayHeaders = [];
+      var displayResults = [];
+      if ($('#pointselect').val() === 'Fantasy') {
+        var fantasyCols = setUpFantasyCols();
+        displayHeaders = fantasyCols[0];
+        displayResults = fantasyCols[1];
+      }
+      else {
+        displayHeaders = headers;
+        displayResults = filteredResults;
+      }
       table.destroy(); //can't i just redraw the dang thing??
       table = $('#statstable').DataTable( {
         pageLength: 50,
-        columns: headers,
-        data: filteredResults,
-        footerCallback: footerCallback
+        columns: displayHeaders,
+        data: displayResults,
+        footerCallback: footerCallback,
+        order: [[displayHeaders.length - 1, "desc"]]
       });
     });
     $('#pointselect').change(function() {
@@ -73,25 +85,9 @@ script.
         displayResults = filteredResults;
       }
       else if (opt === 'Fantasy') {
-        for (var row in filteredResults) {
-          displayRow = [];
-          displayHeaders = [];
-          for (var col in filteredResults[row]) {
-            if (isNaN(parseFloat(filteredResults[row][col])) || col == (headers.length - 1)) {
-              displayRow.push(filteredResults[row][col]);
-              if (!displayHeaders.includes(headers[col])) {displayHeaders.push(headers[col]);}
-            }
-            else if (scoringMap.hasOwnProperty(headers[col].title)) {
-              displayRow.push(Math.round(10 * filteredResults[row][col] * scoringMap[headers[col].title])/10);
-              if (!displayHeaders.includes(headers[col])) {displayHeaders.push(headers[col]);}
-            }
-            else if (headers[col].title === 'FGA') { //hack city
-              displayRow.push((parseFloat(filteredResults[row][col]) - parseFloat(filteredResults[row][col-1])) * scoringMap['FGA-FGM']);
-              if (!displayHeaders.includes({title:"FGMi"})) {displayHeaders.push({title:"FGMi"});}
-            }
-          }
-          displayResults.push(displayRow);
-        }
+        var fantasyCols = setUpFantasyCols();
+        displayHeaders = fantasyCols[0];
+        displayResults = fantasyCols[1];
       }
       table.destroy(); //can't i just redraw the dang thing??
       $("#statstable").empty();
@@ -101,9 +97,32 @@ script.
         columns: displayHeaders,
         data: displayResults,
         footerCallback: footerCallback,
-        order: [[headers.length - 1, "desc"]]
+        order: [[displayHeaders.length - 1, "desc"]]
       });
     });
+    var setUpFantasyCols = function () {
+      var displayResults = [];
+      for (var row in filteredResults) {
+        var displayHeaders = [];
+        var displayRow = [];
+        for (var col in filteredResults[row]) {
+          if (isNaN(parseFloat(filteredResults[row][col])) || col == (headers.length - 1)) {
+            displayRow.push(filteredResults[row][col]);
+            if (!displayHeaders.includes(headers[col])) {displayHeaders.push(headers[col]);}
+          }
+          else if (scoringMap.hasOwnProperty(headers[col].title)) {
+            displayRow.push(Math.round(10 * filteredResults[row][col] * scoringMap[headers[col].title])/10);
+            if (!displayHeaders.includes(headers[col])) {displayHeaders.push(headers[col]);}
+          }
+          else if (headers[col].title === 'FGA') { //hack city
+            displayRow.push((parseFloat(filteredResults[row][col]) - parseFloat(filteredResults[row][col-1])) * scoringMap['FGA-FGM']);
+            if (!displayHeaders.includes({title:"FGMi"})) {displayHeaders.push({title:"FGMi"});}
+          }
+        }
+        displayResults.push(displayRow);
+      }
+      return [displayHeaders, displayResults];
+    };
     var footerCallback = function (row, data, start, end, display) {
       var api = this.api(), data;
 
@@ -145,7 +164,7 @@ script.
         if (i === "0") {
           $(api.column( i ).footer()).html('Totals:');
         }
-        else if (parseFloat(i) === (headers.length - 1)) {
+        else if (parseFloat(i) === (api.columns()[0].length - 1)) {
           $(api.column( i ).footer()).html(pageTotal + '*');
         }
         else {
