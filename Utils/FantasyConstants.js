@@ -7,7 +7,7 @@ module.exports = {
                       "John Wall",
                       "Paul Millsap",
                       "Rudy Gobert",
-                      "Deandre Jordon",
+                      "DeAndre Jordan",
                       "Draymond Green",
                       "Paul George",
                       "Ben Simmons",
