@@ -11,7 +11,6 @@ var appRes;
 var dateOption;
 const emitter = require('./Utils/globalEmitter');
 emitter.on('calloutsuccess', function(result) {
-  console.log('Callout succeeded');
   var formattedData = dataReformatter.reformatNBAPlayerDashboard('LEAGUE_DASHBOARD_API', result.headers, result.rowSet);
 
   appRes.end(compiledFunction({
@@ -21,7 +20,6 @@ emitter.on('calloutsuccess', function(result) {
     fantasyScoring:JSON.stringify(FantasyConstants.scoring()),
     dateOption:dateOption
   }));
-  console.log('Data sent to frontend');
 });
 emitter.on('calloutserror', function(err) {
   appRes.send(err);
@@ -41,7 +39,6 @@ var processRequest = function() {
     params.DateFrom = date.toISOString();
     params.DateTo = date.toISOString();
   }
-  console.log('Going to call out\n' + JSON.stringify(params));
   callouts.performRequest(NBAAPIConstants.LEAGUE_DASHBOARD_API.URI, 'GET', params);
   // callouts.performRequest('/players/'+LastName+'/'+FirstName, 'GET', null, true); //todo images??
 };
@@ -78,5 +75,5 @@ app.get('/Full', function (req, res) {
 });
 
 app.listen(process.env.PORT || 3000, function () {
-  console.log('App started');
+  console.log('Here goes nothin\'');
 });

@@ -42,23 +42,19 @@ module.exports.performRequest = function(endpoint, method, data, imageSearch) {
       var responseString = '';
 
       res.on('data', function(data) {
-        console.log('Got some data\n' + data);
         responseString += data;
       });
 
       res.on('end', function() {
-        console.log('Callout finished\n' + responseString);
         var responseObject = JSON.parse(responseString);
         return emitter.emit('calloutsuccess', responseObject.resultSets[0]);
       });
     });
 
     req.on('error', function(err) {
-      console.log('Callout error\n' + err.toString());
       return emitter.emit('callouterror', err);
     });
 
-    console.log('Calling out now\n' + JSON.stringify(options));
     req.write(dataString);
     req.end();
 }
