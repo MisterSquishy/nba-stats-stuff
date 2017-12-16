@@ -1,3 +1,3 @@
 module.exports = {
-  IS_HEROKU : true
+  IS_HEROKU : false
 }
