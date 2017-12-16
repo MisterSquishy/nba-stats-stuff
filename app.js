@@ -1,3 +1,5 @@
+const context = require('./Utils/context');
+
 var express = require('express');
 var app = express();
 var pug = require('pug');
@@ -39,7 +41,12 @@ var processRequest = function() {
     params.DateFrom = date.toISOString();
     params.DateTo = date.toISOString();
   }
-  callouts.performRequest(NBAAPIConstants.LEAGUE_DASHBOARD_API.URI, 'GET', params);
+  if (context.IS_HEROKU) {
+    //get static data b/c NBA API blacklists our IP
+  }
+  else {
+    callouts.performRequest(NBAAPIConstants.LEAGUE_DASHBOARD_API.URI, 'GET', params);
+  }
   // callouts.performRequest('/players/'+LastName+'/'+FirstName, 'GET', null, true); //todo images??
 };
 
