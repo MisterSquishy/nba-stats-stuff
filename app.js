@@ -4,6 +4,7 @@ var express = require('express');
 var app = express();
 var pug = require('pug');
 var callouts = require('./Utils/callouts');
+var staticDataLoader = require('./Utils/staticDataLoader');
 var NBAAPIConstants = require('./Utils/NBAAPIConstants');
 var FantasyConstants = require('./Utils/FantasyConstants');
 var dataReformatter = require('./Utils/dataReformatter');
@@ -28,23 +29,23 @@ emitter.on('calloutserror', function(err) {
 });
 
 var processRequest = function() {
-  var params = JSON.parse(JSON.stringify(NBAAPIConstants.LEAGUE_DASHBOARD_API.Params)); //really???
-  if (dateOption !== 'Full') {
-    var date = new Date();
-    if (dateOption === 'Today') {
-      //date set by default
-    }
-    else if (dateOption === 'Yesterday') {
-      date.setDate(date.getDate() - 1);
-    }
-
-    params.DateFrom = date.toISOString();
-    params.DateTo = date.toISOString();
-  }
   if (context.IS_HEROKU) {
-    //get static data b/c NBA API blacklists our IP
+    staticDataLoader.load(dateOption);
   }
   else {
+    var params = JSON.parse(JSON.stringify(NBAAPIConstants.LEAGUE_DASHBOARD_API.Params)); //really???
+    if (dateOption !== 'Full') {
+      var date = new Date();
+      if (dateOption === 'Today') {
+        //date set by default
+      }
+      else if (dateOption === 'Yesterday') {
+        date.setDate(date.getDate() - 1);
+      }
+
+      params.DateFrom = date.toISOString();
+      params.DateTo = date.toISOString();
+    }
     callouts.performRequest(NBAAPIConstants.LEAGUE_DASHBOARD_API.URI, 'GET', params);
   }
   // callouts.performRequest('/players/'+LastName+'/'+FirstName, 'GET', null, true); //todo images??
