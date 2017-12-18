@@ -15,7 +15,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "stats.nba.com/stats/leaguedashplayerstats?SeasonType=Regular Season&MeasureType=Base&PerMode=Totals&PlusMinus=Y&PaceAdjust=N&Rank=N&Season=2017-18&Month=0&LastNGames=0&Period=0&OpponentTeamID=0&DateFrom=&DateTo=&VsConference=&GameSegment=&SeasonSegment=&GameScope=&PlayerExperience=&PlayerPosition=&StarterBench=&VsDivision=&Outcome=&Location=",
+					"raw": "stats.nba.com/stats/leaguedashplayerstats?SeasonType=Regular Season&MeasureType=Base&PerMode=Totals&PlusMinus=N&PaceAdjust=N&Rank=N&Season=2017-18&Month=0&LastNGames=0&Period=0&OpponentTeamID=0&DateFrom=&DateTo=&VsConference=&GameSegment=&SeasonSegment=&GameScope=&PlayerExperience=&PlayerPosition=&StarterBench=&VsDivision=&Outcome=&Location=",
 					"host": [
 						"stats",
 						"nba",
@@ -43,7 +43,7 @@
 						},
 						{
 							"key": "PlusMinus",
-							"value": "Y",
+							"value": "N",
 							"equals": true
 						},
 						{
