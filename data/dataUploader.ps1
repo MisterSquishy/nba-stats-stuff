@@ -42,5 +42,4 @@ cmd.exe /c "git add today.json yesterday.json full.json date.postman_environment
 $date = Get-Date
 cmd.exe /c "git commit -m `"Data update $date`""
 #Heroku: pdavids02@yahoo.com/DataUploader1!
-cmd.exe /c "git push heroku master"
 cmd.exe /c "git push origin master"
