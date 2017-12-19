@@ -102,9 +102,9 @@ module.exports = {
   LEAGUE_SCOREBOARD_API : {
     URI : '/stats/scoreboard',
     Params : {
-      'GameDate':new Date.toISOString().slice(0,10),
-      'LeagueID':00,
-      'DayOffset':0
+      'GameDate':(new Date).toISOString().slice(0,10),
+      'LeagueID':'00',
+      'DayOffset':'0'
     },
     DesiredCols : {
         'HOME_TEAM_ID':'Team1',
@@ -114,9 +114,9 @@ module.exports = {
   ALL_PLAYERS_API : {
     URI : '/stats/commonallplayers',
     Params : {
-      'LeagueID':00,
-      'Season':2017-18,
-      'IsOnlyCurrentSeason':1
+      'LeagueID':'00',
+      'Season':'2017-18',
+      'IsOnlyCurrentSeason':'1'
     },
     DesiredCols : {
         'DISPLAY_FIRST_LAST':'Name',

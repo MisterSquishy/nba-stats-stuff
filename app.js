@@ -10,40 +10,48 @@ var FantasyConstants = require('./Utils/FantasyConstants');
 var dataReformatter = require('./Utils/dataReformatter');
 const compiledFunction = pug.compileFile('./templates/home.pug');
 
-var appRes;
-var dateOption;
 const emitter = require('./Utils/globalEmitter');
+var params = {};
+var completedCallouts = [];
 emitter.on(NBAAPIConstants.LEAGUE_DASHBOARD_API.URI + 'success', function(result) {
   var formattedData = dataReformatter.reformatNBAPlayerDashboard('LEAGUE_DASHBOARD_API', result.headers, result.rowSet);
 
-  appRes.end(compiledFunction({
-    dashboardHeaders:formattedData[0],
-    dashboardRowSet:formattedData[1],
-    teamRosters:JSON.stringify(FantasyConstants),
-    fantasyScoring:JSON.stringify(FantasyConstants.scoring()),
-    dateOption:dateOption
-  }));
+  params.dashboardHeaders = formattedData[0];
+  params.dashboardRowSet = formattedData[1];
+  params.teamRosters = JSON.stringify(FantasyConstants);
+  params.fantasyScoring = JSON.stringify(FantasyConstants.scoring());
+  params.dateOption = dateOption;
+
+  completedCallouts.push(NBAAPIConstants.LEAGUE_DASHBOARD_API.URI);
+  emitter.emit('calloutsuccess');
 });
 emitter.on(NBAAPIConstants.LEAGUE_SCOREBOARD_API.URI + 'success', function(result) {
   var formattedData = dataReformatter.reformatNBAPlayerDashboard('LEAGUE_SCOREBOARD_API', result.headers, result.rowSet);
 
-  appRes.end(compiledFunction({
-    scoreBoardHeaders:formattedData[0],
-    scoreBoardRowSet:formattedData[1],
-  }));
+  params.scoreboardRowSet = formattedData[1];
+
+  completedCallouts.push(NBAAPIConstants.LEAGUE_SCOREBOARD_API.URI);
+  emitter.emit('calloutsuccess');
 });
 emitter.on(NBAAPIConstants.ALL_PLAYERS_API.URI + 'success', function(result) {
   var formattedData = dataReformatter.reformatNBAPlayerDashboard('ALL_PLAYERS_API', result.headers, result.rowSet);
 
-  appRes.end(compiledFunction({
-    allPlayersHeaders:formattedData[0],
-    allPlayersRowSet:formattedData[1],
-  }));
+  params.allPlayersRowSet = formattedData[1];
+
+  completedCallouts.push(NBAAPIConstants.ALL_PLAYERS_API.URI);
+  emitter.emit('calloutsuccess');
+});
+emitter.on('calloutsuccess', function() {
+  if (context.IS_HEROKU || completedCallouts.length === 3) {
+    appRes.end(compiledFunction(params));
+  }
 });
 emitter.on('calloutserror', function(err) {
   appRes.send(err);
 });
 
+var appRes;
+var dateOption;
 var processRequest = function() {
   if (context.IS_HEROKU) {
     staticDataLoader.load(dateOption);

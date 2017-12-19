@@ -24,7 +24,7 @@ module.exports.reformatNBAPlayerDashboard = function(APIName, headers, rowSet) {
       }
       formattedHeaders.push({title:NBAAPIConstants[APIName].DesiredCols[headers[desiredColIndices[colIndex]]]});
     }
-    if (APIName.URI === LEAGUE_DASHBOARD_API.URI) {
+    if (NBAAPIConstants[APIName].URI === NBAAPIConstants.LEAGUE_DASHBOARD_API.URI) {
       formattedHeaders.push({title:"FPts"}); //this is shamefully lazy
     }
 
@@ -60,7 +60,7 @@ module.exports.reformatNBAPlayerDashboard = function(APIName, headers, rowSet) {
           }
         }
       }
-      if (APIName.URI === LEAGUE_DASHBOARD_API.URI) {
+      if (NBAAPIConstants[APIName].URI === NBAAPIConstants.LEAGUE_DASHBOARD_API.URI) {
         fPts += (FGA - FGM) * FantasyConstants.scoring()[NBAAPIConstants.NBA_FGATTEMPTED + '-' + NBAAPIConstants.NBA_FGMADE]; //yuck
         formattedRow.push(Math.round(fPts*10)/10);
       }
