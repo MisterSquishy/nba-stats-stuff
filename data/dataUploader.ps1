@@ -33,12 +33,16 @@ $todaydata = Parse-GzipStreamData $CombinedData.run.executions[1].response.strea
 $todaydata | Set-Content "today.json"
 $yesterdaydata = Parse-GzipStreamData $CombinedData.run.executions[2].response.stream.data #callout 3 is yesterday
 $yesterdaydata | Set-Content "yesterday.json"
+$yesterdaydata = Parse-GzipStreamData $CombinedData.run.executions[3].response.stream.data #callout 4 is scoreboard
+$yesterdaydata | Set-Content "scoreboard.json"
+$yesterdaydata = Parse-GzipStreamData $CombinedData.run.executions[4].response.stream.data #callout 5 is allplayers
+$yesterdaydata | Set-Content "allplayers.json"
 
 # push up to heroku
 #GitHub: pdavids02@yahoo.com/TestPassword1!
 cmd.exe /c "git config user.email pdavids02@yahoo.com"
 cmd.exe /c "git config user.name PJDDataUploader"
-cmd.exe /c "git add today.json yesterday.json full.json date.postman_environment.json"
+cmd.exe /c "git add today.json yesterday.json full.json allplayers.json scoreboard.json date.postman_environment.json"
 $date = Get-Date
 cmd.exe /c "git commit -m `"Data update $date`""
 #Heroku: pdavids02@yahoo.com/DataUploader1!

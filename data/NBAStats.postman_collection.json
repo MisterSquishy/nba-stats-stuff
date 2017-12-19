@@ -2,6 +2,7 @@
 	"info": {
 		"name": "NBAStats",
 		"_postman_id": "e07a3ea9-c047-46eb-109a-e26ee1da6df4",
+		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -94,12 +95,12 @@
 						{
 							"key": "VsConference",
 							"value": "",
-							"equals": false
+							"equals": true
 						},
 						{
 							"key": "GameSegment",
 							"value": "",
-							"equals": false
+							"equals": true
 						},
 						{
 							"key": "SeasonSegment",
@@ -109,40 +110,41 @@
 						{
 							"key": "GameScope",
 							"value": "",
-							"equals": false
+							"equals": true
 						},
 						{
 							"key": "PlayerExperience",
 							"value": "",
-							"equals": false
+							"equals": true
 						},
 						{
 							"key": "PlayerPosition",
 							"value": "",
-							"equals": false
+							"equals": true
 						},
 						{
 							"key": "StarterBench",
 							"value": "",
-							"equals": false
+							"equals": true
 						},
 						{
 							"key": "VsDivision",
 							"value": "",
-							"equals": false
+							"equals": true
 						},
 						{
 							"key": "Outcome",
 							"value": "",
-							"equals": false
+							"equals": true
 						},
 						{
 							"key": "Location",
 							"value": "",
-							"equals": false
+							"equals": true
 						}
 					]
-				}
+				},
+				"description": null
 			},
 			"response": []
 		},
@@ -283,7 +285,8 @@
 							"equals": false
 						}
 					]
-				}
+				},
+				"description": null
 			},
 			"response": []
 		},
@@ -424,7 +427,85 @@
 							"equals": false
 						}
 					]
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "scoreboard",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "stats.nba.com/stats/scoreboard?GameDate=2017-12-18&LeagueID=00&DayOffset=0",
+					"host": [
+						"stats",
+						"nba",
+						"com"
+					],
+					"path": [
+						"stats",
+						"scoreboard"
+					],
+					"query": [
+						{
+							"key": "GameDate",
+							"value": "2017-12-18",
+							"equals": true
+						},
+						{
+							"key": "LeagueID",
+							"value": "00",
+							"equals": true
+						},
+						{
+							"key": "DayOffset",
+							"value": "0",
+							"equals": true
+						}
+					]
 				}
+			},
+			"response": []
+		},
+		{
+			"name": "allplayers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "stats.nba.com/stats/commonallplayers?LeagueID=00&Season=2017-18&IsOnlyCurrentSeason=1",
+					"host": [
+						"stats",
+						"nba",
+						"com"
+					],
+					"path": [
+						"stats",
+						"commonallplayers"
+					],
+					"query": [
+						{
+							"key": "LeagueID",
+							"value": "00",
+							"equals": true
+						},
+						{
+							"key": "Season",
+							"value": "2017-18",
+							"equals": true
+						},
+						{
+							"key": "IsOnlyCurrentSeason",
+							"value": "1",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
 			},
 			"response": []
 		}

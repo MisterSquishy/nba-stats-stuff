@@ -42,7 +42,7 @@ emitter.on(NBAAPIConstants.ALL_PLAYERS_API.URI + 'success', function(result) {
   emitter.emit('calloutsuccess');
 });
 emitter.on('calloutsuccess', function() {
-  if (context.IS_HEROKU || completedCallouts.length === 3) {
+  if (completedCallouts.length === 3) {
     appRes.end(compiledFunction(params));
   }
 });
@@ -53,6 +53,7 @@ emitter.on('calloutserror', function(err) {
 var appRes;
 var dateOption;
 var processRequest = function() {
+  completedCallouts = [];
   if (context.IS_HEROKU) {
     staticDataLoader.load(dateOption);
   }
