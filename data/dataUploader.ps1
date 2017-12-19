@@ -33,10 +33,10 @@ $todaydata = Parse-GzipStreamData $CombinedData.run.executions[1].response.strea
 $todaydata | Set-Content "today.json"
 $yesterdaydata = Parse-GzipStreamData $CombinedData.run.executions[2].response.stream.data #callout 3 is yesterday
 $yesterdaydata | Set-Content "yesterday.json"
-$yesterdaydata = Parse-GzipStreamData $CombinedData.run.executions[3].response.stream.data #callout 4 is scoreboard
-$yesterdaydata | Set-Content "scoreboard.json"
-$yesterdaydata = Parse-GzipStreamData $CombinedData.run.executions[4].response.stream.data #callout 5 is allplayers
-$yesterdaydata | Set-Content "allplayers.json"
+$scoreboard = Parse-GzipStreamData $CombinedData.run.executions[3].response.stream.data #callout 4 is scoreboard
+$scoreboard | Set-Content "scoreboard.json"
+$allplayers = Parse-GzipStreamData $CombinedData.run.executions[4].response.stream.data #callout 5 is allplayers
+$allplayers | Set-Content "allplayers.json"
 
 # push up to heroku
 #GitHub: pdavids02@yahoo.com/TestPassword1!
