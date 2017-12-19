@@ -24,7 +24,9 @@ module.exports.reformatNBAPlayerDashboard = function(APIName, headers, rowSet) {
       }
       formattedHeaders.push({title:NBAAPIConstants[APIName].DesiredCols[headers[desiredColIndices[colIndex]]]});
     }
-    formattedHeaders.push({title:"FPts"}); //this is shamefully lazy
+    if (APIName.URI === LEAGUE_DASHBOARD_API.URI) {
+      formattedHeaders.push({title:"FPts"}); //this is shamefully lazy
+    }
 
     var formattedRowSet = [];
     for (var row in rowSet) {
@@ -58,8 +60,10 @@ module.exports.reformatNBAPlayerDashboard = function(APIName, headers, rowSet) {
           }
         }
       }
-      fPts += (FGA - FGM) * FantasyConstants.scoring()[NBAAPIConstants.NBA_FGATTEMPTED + '-' + NBAAPIConstants.NBA_FGMADE]; //yuck
-      formattedRow.push(Math.round(fPts*10)/10);
+      if (APIName.URI === LEAGUE_DASHBOARD_API.URI) {
+        fPts += (FGA - FGM) * FantasyConstants.scoring()[NBAAPIConstants.NBA_FGATTEMPTED + '-' + NBAAPIConstants.NBA_FGMADE]; //yuck
+        formattedRow.push(Math.round(fPts*10)/10);
+      }
       formattedRowSet.push(formattedRow);
     }
 

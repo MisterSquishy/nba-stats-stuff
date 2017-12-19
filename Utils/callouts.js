@@ -18,6 +18,7 @@ const emitter = require('./globalEmitter');
 
 module.exports.performRequest = function(endpoint, method, data, imageSearch) {
     var dataString = JSON.stringify(data);
+    var endpointName = endpoint;
 
     if (method == 'GET') {
       endpoint += '?' + querystring.stringify(data);
@@ -47,7 +48,7 @@ module.exports.performRequest = function(endpoint, method, data, imageSearch) {
 
       res.on('end', function() {
         var responseObject = JSON.parse(responseString);
-        return emitter.emit('calloutsuccess', responseObject.resultSets[0]);
+        return emitter.emit(endpointName + 'success', responseObject.resultSets[0]);
       });
     });
 
