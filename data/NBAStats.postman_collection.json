@@ -452,7 +452,7 @@
 					"query": [
 						{
 							"key": "GameDate",
-							"value": "2017-12-18",
+							"value": "{{today}}",
 							"equals": true
 						},
 						{
