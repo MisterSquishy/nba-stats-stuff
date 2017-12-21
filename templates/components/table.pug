@@ -1,0 +1,68 @@
+div(class="tablediv")
+    table(id="statstable" class="display" width="100%")
+div(class="notesdiv" style="text-align:right;")
+    h4 *does not reflect actual fantasy points recorded by starting lineups
+link(href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" rel="stylesheet" type="text/css")
+link(href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css")
+script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" type="text/javascript")
+script(src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js" type="text/javascript")
+script
+  include ../scripts/dataTable.js
+script.
+  window.onload = function() {
+    //TODO: SHOULD THE FRONTEND DO ANYTHING WITH THESE 2?
+    var games = JSON.parse("#{scoreboardRowSet}".replace(/&quot;/g,'"')); //formatted as 2d array, elements are [home team id, away team id]
+    var allplayers = JSON.parse("#{allPlayersRowSet}".replace(/&quot;/g,'"')); //formatted as 2d array, elements are [player name, team id]
+
+    $('#dateselect').val("#{dateOption}");
+    headers = JSON.parse("#{dashboardHeaders}".replace(/&quot;/g,'"'));
+    fullResults = JSON.parse("#{dashboardRowSet}".replace(/&quot;/g,'"'));
+    filteredResults = fullResults;
+    scoringMap = JSON.parse("#{fantasyScoring}".replace(/&quot;/g,'"'));
+    teamRosters = JSON.parse("#{teamRosters}".replace(/&quot;/g,'"'));
+    createTable(headers, filteredResults);
+    $('#dateselect').change(function() {
+      self.location = '/' + $("option:selected", this)[0].value;
+    });
+    $('#teamselect').change(function() {
+      filteredResults = [];
+      var roster = teamRosters[$("option:selected", this)[0].value];
+      if (roster) {
+        for (var i in fullResults) {
+          if (roster.includes(fullResults[i][0])) {
+            filteredResults.push(fullResults[i]);
+          }
+        }
+      }
+      else {
+        filteredResults = fullResults;
+      }
+      var displayHeaders = [];
+      var displayResults = [];
+      if ($('#pointselect').val() === 'Fantasy') {
+        var fantasyCols = setUpFantasyCols();
+        displayHeaders = fantasyCols[0];
+        displayResults = fantasyCols[1];
+      }
+      else {
+        displayHeaders = headers;
+        displayResults = filteredResults;
+      }
+      redrawTable(displayHeaders, displayResults);
+    });
+    $('#pointselect').change(function() {
+      var opt = $("option:selected", this)[0].value;
+      var displayHeaders = [];
+      var displayResults = [];
+      if (opt === 'Real') {
+        displayHeaders = headers;
+        displayResults = filteredResults;
+      }
+      else if (opt === 'Fantasy') {
+        var fantasyCols = setUpFantasyCols();
+        displayHeaders = fantasyCols[0];
+        displayResults = fantasyCols[1];
+      }
+      redrawTable(displayHeaders, displayResults);
+    });
+  };
