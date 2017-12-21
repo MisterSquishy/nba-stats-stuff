@@ -10,10 +10,6 @@ script
   include ../scripts/dataTable.js
 script.
   window.onload = function() {
-    //TODO: SHOULD THE FRONTEND DO ANYTHING WITH THESE 2?
-    var games = JSON.parse("#{scoreboardRowSet}".replace(/&quot;/g,'"')); //formatted as 2d array, elements are [home team id, away team id]
-    var allplayers = JSON.parse("#{allPlayersRowSet}".replace(/&quot;/g,'"')); //formatted as 2d array, elements are [player name, team id]
-
     $('#dateselect').val("#{dateOption}");
     headers = JSON.parse("#{dashboardHeaders}".replace(/&quot;/g,'"'));
     fullResults = JSON.parse("#{dashboardRowSet}".replace(/&quot;/g,'"'));

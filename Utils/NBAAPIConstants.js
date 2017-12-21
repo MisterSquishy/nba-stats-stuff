@@ -108,7 +108,8 @@ module.exports = {
     },
     DesiredCols : {
         'HOME_TEAM_ID':'Team1',
-        'VISITOR_TEAM_ID':'Team2'
+        'VISITOR_TEAM_ID':'Team2',
+        'GAME_STATUS_TEXT':'Status'
     }
   },
   ALL_PLAYERS_API : {
@@ -120,7 +121,7 @@ module.exports = {
     },
     DesiredCols : {
         'DISPLAY_FIRST_LAST':'Name',
-        'TEAM_ID':'Team'
+        'TEAM_ABBREVIATION':'Team'
     }
   }
 }

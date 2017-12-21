@@ -28,7 +28,7 @@ emitter.on(NBAAPIConstants.LEAGUE_DASHBOARD_API.URI + 'success', function(result
 emitter.on(NBAAPIConstants.LEAGUE_SCOREBOARD_API.URI + 'success', function(result) {
   var formattedData = dataReformatter.reformatNBAPlayerDashboard('LEAGUE_SCOREBOARD_API', result.headers, result.rowSet);
 
-  params.scoreboardRowSet = formattedData[1];
+  params.scoreboardRowSet = JSON.parse(formattedData[1]);
 
   completedCallouts.push(NBAAPIConstants.LEAGUE_SCOREBOARD_API.URI);
   emitter.emit('calloutsuccess');
@@ -36,13 +36,24 @@ emitter.on(NBAAPIConstants.LEAGUE_SCOREBOARD_API.URI + 'success', function(resul
 emitter.on(NBAAPIConstants.ALL_PLAYERS_API.URI + 'success', function(result) {
   var formattedData = dataReformatter.reformatNBAPlayerDashboard('ALL_PLAYERS_API', result.headers, result.rowSet);
 
-  params.allPlayersRowSet = formattedData[1];
+  params.allPlayersRowSet = JSON.parse(formattedData[1]);
 
   completedCallouts.push(NBAAPIConstants.ALL_PLAYERS_API.URI);
   emitter.emit('calloutsuccess');
 });
 emitter.on('calloutsuccess', function() {
   if (completedCallouts.length === 3) {
+    if (dateOption === 'Today') {
+      var formattedData = dataReformatter.createTodayView(params.dashboardHeaders, params.dashboardRowSet, params.scoreboardRowSet, params.allPlayersRowSet);
+      params.dashboardHeaders = formattedData[0];
+      params.dashboardRowSet = formattedData[1];
+    }
+    else if (dateOption === 'Yesterday') {
+      //dataReformatter.createYesterdayView(params.dashboardHeaders, params.dashboardRowSet, params.allPlayersRowSet);
+    }
+    //frontend doesn't need these
+    delete params.allPlayersRowSet;
+    delete params.scoreboardRowSet;
     appRes.end(compiledFunction(params));
   }
 });
