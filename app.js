@@ -49,7 +49,9 @@ emitter.on('calloutsuccess', function() {
       params.dashboardRowSet = formattedData[1];
     }
     else if (dateOption === 'Yesterday') {
-      //dataReformatter.createYesterdayView(params.dashboardHeaders, params.dashboardRowSet, params.allPlayersRowSet);
+      var formattedData = dataReformatter.addRestOfPlayers(params.dashboardHeaders, params.dashboardRowSet, params.allPlayersRowSet);
+      params.dashboardHeaders = formattedData[0];
+      params.dashboardRowSet = formattedData[1];
     }
     //frontend doesn't need these
     delete params.allPlayersRowSet;

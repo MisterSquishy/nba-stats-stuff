@@ -19,16 +19,26 @@ setUpFantasyCols = function () {
     var displayHeaders = [];
     var displayRow = [];
     for (var col in filteredResults[row]) {
-      if (isNaN(parseFloat(filteredResults[row][col])) || col == (headers.length - 1)) {
+      if (headers[col].title === 'Name' || headers[col].title === 'Team' || headers[col].title === 'Game' || col == (headers.length - 1)) {
         displayRow.push(filteredResults[row][col]);
         if (!displayHeaders.includes(headers[col])) {displayHeaders.push(headers[col]);}
       }
       else if (scoringMap.hasOwnProperty(headers[col].title)) {
-        displayRow.push(Math.round(10 * filteredResults[row][col] * scoringMap[headers[col].title])/10);
+        if (isNaN(filteredResults[row][col])) {
+          displayRow.push(filteredResults[row][col]);
+        }
+        else {
+          displayRow.push(Math.round(10 * filteredResults[row][col] * scoringMap[headers[col].title])/10);
+        }
         if (!displayHeaders.includes(headers[col])) {displayHeaders.push(headers[col]);}
       }
       else if (headers[col].title === 'FGA') { //hack city
-        displayRow.push((parseFloat(filteredResults[row][col]) - parseFloat(filteredResults[row][col-1])) * scoringMap['FGA-FGM']);
+        if (isNaN(filteredResults[row][col])) {
+          displayRow.push(filteredResults[row][col]);
+        }
+        else {
+          displayRow.push((parseFloat(filteredResults[row][col]) - parseFloat(filteredResults[row][col-1])) * scoringMap['FGA-FGM']);
+        }
         if (!displayHeaders.includes({title:"FGMi"})) {displayHeaders.push({title:"FGMi"});}
       }
     }
@@ -50,7 +60,7 @@ footerCallback = function (row, data, start, end, display) {
   // Remove the formatting to get integer data for summation
   var intVal = function (i) {
     return typeof i === 'string' ?
-      i.replace(/[\$,]/g, '') * 1 :
+      i.replace(/[,-]/g, '') * 1 :
       typeof i === 'number' ?
       i : 0;
   };

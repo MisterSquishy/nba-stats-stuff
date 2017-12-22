@@ -73,6 +73,7 @@ module.exports.reformatNBAPlayerDashboard = function(APIName, headers, rowSet) {
 module.exports.createTodayView = function (headers, rows, scoreboard, allPlayers) {
   var gameCol;
   headers = JSON.parse(headers);
+  //add column for today's game
   for (var i in headers) {
     if (headers[i].title === NBAAPIConstants.LEAGUE_DASHBOARD_API.DesiredCols.TEAM_ABBREVIATION) {
       headers.splice(parseInt(i) + 1, 0, {"title":"Game"});
@@ -81,23 +82,42 @@ module.exports.createTodayView = function (headers, rows, scoreboard, allPlayers
     }
   }
 
+  //find all teams with games today
   var teamsWithGames = {};
   for (var i in scoreboard) {
     teamsWithGames[scoreboard[i][0]] = scoreboard[i][2];
     teamsWithGames[scoreboard[i][1]] = scoreboard[i][2];
   }
 
+  return module.exports.addRestOfPlayers(JSON.stringify(headers), rows, allPlayers, teamsWithGames)
+}
+
+module.exports.addRestOfPlayers = function (headers, rows, allPlayers, teamsWithGames) {
+  teamsWithGames = teamsWithGames ? teamsWithGames : {};
+
+  //flag gameCol (= team name + 1)
+  headers = JSON.parse(headers);
+  var gameCol;
+  for (var i in headers) {
+    if (headers[i].title === NBAAPIConstants.LEAGUE_DASHBOARD_API.DesiredCols.TEAM_ABBREVIATION) {
+      gameCol = parseInt(i) + 1;
+      break;
+    }
+  }
+
+  //find all players who already have a row in the dashboard (b/c game is in progress/over)
   rows = JSON.parse(rows);
   var playersWithStats = {};
   for (var row in rows) {
     playersWithStats[rows[row][0]] = row;
   }
   
+  //merge in the rest of the players, add game info for the existing players
   var newRows = [];
   for (var i in allPlayers) {
     var row = (playersWithStats.hasOwnProperty(allPlayers[i][0])) ? rows[playersWithStats[allPlayers[i][0]]] : []; //use existing stats if we got them
     for (var j in headers) {
-      if (j < gameCol) {
+      if (row.length <= j && j < gameCol) { //add in name and team cols
         row.push(allPlayers[i][j]);
       }
       if (j == gameCol &&
@@ -113,8 +133,4 @@ module.exports.createTodayView = function (headers, rows, scoreboard, allPlayers
   }
 
   return [JSON.stringify(headers), JSON.stringify(newRows)];
-}
-
-module.exports.createYesterdayView = function (headers, rows, allPlayers) {
-  
 }
