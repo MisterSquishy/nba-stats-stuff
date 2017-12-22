@@ -24,11 +24,11 @@ script.
       filteredResults = [];
       var roster = teamRosters[$("option:selected", this)[0].value];
       if (roster) {
-        for (var i in fullResults) {
-          if (roster.includes(fullResults[i][0])) {
-            filteredResults.push(fullResults[i]);
+        fullResults.forEach(function(result) {
+          if (roster.includes(result[0])) {
+            filteredResults.push(result);
           }
-        }
+        });
       }
       else {
         filteredResults = fullResults;
