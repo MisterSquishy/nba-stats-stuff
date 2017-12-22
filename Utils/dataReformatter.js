@@ -85,8 +85,8 @@ module.exports.createTodayView = function (headers, rows, scoreboard, allPlayers
   //find all teams with games today
   var teamsWithGames = {};
   for (var i in scoreboard) {
-    teamsWithGames[scoreboard[i][0]] = scoreboard[i][2];
-    teamsWithGames[scoreboard[i][1]] = scoreboard[i][2];
+    teamsWithGames[scoreboard[i][0]] = NBAAPIConstants.TEAM_ID_TO_ABBR()[scoreboard[i][1]] + ', ' + scoreboard[i][2];
+    teamsWithGames[scoreboard[i][1]] = '@' + NBAAPIConstants.TEAM_ID_TO_ABBR()[scoreboard[i][0]] + ',' + scoreboard[i][2];
   }
 
   return module.exports.addRestOfPlayers(JSON.stringify(headers), rows, allPlayers, teamsWithGames)
@@ -121,9 +121,9 @@ module.exports.addRestOfPlayers = function (headers, rows, allPlayers, teamsWith
         row.push(allPlayers[i][j]);
       }
       if (j == gameCol &&
-        teamsWithGames.hasOwnProperty(NBAAPIConstants.TEAM_ID[allPlayers[i][j - 1]])) {
+        teamsWithGames.hasOwnProperty(NBAAPIConstants.TEAM_ABBR_TO_ID[allPlayers[i][j - 1]])) {
         //this player's team is playing today, add their game
-        row.push(teamsWithGames[NBAAPIConstants.TEAM_ID[allPlayers[i][j - 1]]]);
+        row.push(teamsWithGames[NBAAPIConstants.TEAM_ABBR_TO_ID[allPlayers[i][j - 1]]]);
       }
       else if (row.length <= j) {
         row.push('-');

@@ -20,7 +20,7 @@ module.exports = {
   NBA_TEAM : 'Team',
   NBA_GAMESPLAYED : 'GP',
   //team IDs hardcoded
-  TEAM_ID : {
+  TEAM_ABBR_TO_ID : {
     'ATL':'1610612737',
     'BOS':'1610612738',
     'BKN':'1610612751',
@@ -51,6 +51,13 @@ module.exports = {
     'TOR':'1610612761',
     'UTA':'1610612762',
     'WAS':'1610612764'
+  },
+  TEAM_ID_TO_ABBR : function() {
+    var ret = {};
+    for(var key in module.exports.TEAM_ABBR_TO_ID){
+      ret[module.exports.TEAM_ABBR_TO_ID[key]] = key;
+    }
+    return ret;
   },
   //stuff about what columns to include/exclude for each API
   LEAGUE_DASHBOARD_API : {
