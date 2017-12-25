@@ -36,7 +36,9 @@ module.exports = {
                       "Avery Bradley",
                       "Dennis Smith Jr.",
                       "Steven Adams",
-                      "D'Angelo Russell"
+                      "D'Angelo Russell",
+                      "Kris Dunn",
+                      "Donovan Mitchell"
                     ],
   scoring : function() {
               var scoreMap = {};
