@@ -7,6 +7,8 @@ script
 script.
   window.onload = function() {
     $('#dateselect').val("#{dateOption}");
+    $('#teamselect').val(readCookie("teamselect", "All"));
+    $('#pointselect').val(readCookie("pointselect", "Real"));
     headers = JSON.parse("#{dashboardHeaders}".replace(/&quot;/g,'"'));
     fullResults = JSON.parse("#{dashboardRowSet}".replace(/&quot;/g,'"'));
     filteredResults = fullResults;
@@ -18,7 +20,9 @@ script.
     });
     $('#teamselect').change(function() {
       filteredResults = [];
-      var roster = teamRosters[$("option:selected", this)[0].value];
+      var opt = $("option:selected", this)[0].value;
+      var roster = teamRosters[opt];
+      setCookie('teamselect', opt);
       if (roster) {
         fullResults.forEach(function(result) {
           if (roster.includes(result[0])) {
@@ -44,6 +48,7 @@ script.
     });
     $('#pointselect').change(function() {
       var opt = $("option:selected", this)[0].value;
+      setCookie('pointselect', opt);
       var displayHeaders = [];
       var displayResults = [];
       if (opt === 'Real') {
@@ -57,4 +62,6 @@ script.
       }
       redrawTable(displayHeaders, displayResults);
     });
+    $('#teamselect').trigger("change");
+    $('#pointselect').trigger("change");
   };
