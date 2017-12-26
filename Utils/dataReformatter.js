@@ -123,7 +123,7 @@ module.exports.addRestOfPlayers = function (headers, rows, allPlayers, teamsWith
       if (j == gameCol &&
         teamsWithGames.hasOwnProperty(NBAAPIConstants.TEAM_ABBR_TO_ID[allPlayers[i][j - 1]])) {
         //this player's team is playing today, add their game
-        row.push(teamsWithGames[NBAAPIConstants.TEAM_ABBR_TO_ID[allPlayers[i][j - 1]]]);
+        row.splice(parseInt(j), 0, teamsWithGames[NBAAPIConstants.TEAM_ABBR_TO_ID[allPlayers[i][j - 1]]]);
       }
       else if (row.length <= j) {
         row.push('-');
