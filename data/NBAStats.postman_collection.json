@@ -433,6 +433,148 @@
 			"response": []
 		},
 		{
+			"name": "league stats fullseason per game",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "stats.nba.com/stats/leaguedashplayerstats?SeasonType=Regular Season&MeasureType=Base&PerMode=PerGame&PlusMinus=N&PaceAdjust=N&Rank=N&Season=2017-18&Month=0&LastNGames=0&Period=0&OpponentTeamID=0&DateFrom=&DateTo=&VsConference=&GameSegment=&SeasonSegment=&GameScope=&PlayerExperience=&PlayerPosition=&StarterBench=&VsDivision=&Outcome=&Location=",
+					"host": [
+						"stats",
+						"nba",
+						"com"
+					],
+					"path": [
+						"stats",
+						"leaguedashplayerstats"
+					],
+					"query": [
+						{
+							"key": "SeasonType",
+							"value": "Regular Season",
+							"equals": true
+						},
+						{
+							"key": "MeasureType",
+							"value": "Base",
+							"equals": true
+						},
+						{
+							"key": "PerMode",
+							"value": "PerGame",
+							"equals": true
+						},
+						{
+							"key": "PlusMinus",
+							"value": "N",
+							"equals": true
+						},
+						{
+							"key": "PaceAdjust",
+							"value": "N",
+							"equals": true
+						},
+						{
+							"key": "Rank",
+							"value": "N",
+							"equals": true
+						},
+						{
+							"key": "Season",
+							"value": "2017-18",
+							"equals": true
+						},
+						{
+							"key": "Month",
+							"value": "0",
+							"equals": true
+						},
+						{
+							"key": "LastNGames",
+							"value": "0",
+							"equals": true
+						},
+						{
+							"key": "Period",
+							"value": "0",
+							"equals": true
+						},
+						{
+							"key": "OpponentTeamID",
+							"value": "0",
+							"equals": true
+						},
+						{
+							"key": "DateFrom",
+							"value": "",
+							"equals": true
+						},
+						{
+							"key": "DateTo",
+							"value": "",
+							"equals": true
+						},
+						{
+							"key": "VsConference",
+							"value": "",
+							"equals": true
+						},
+						{
+							"key": "GameSegment",
+							"value": "",
+							"equals": true
+						},
+						{
+							"key": "SeasonSegment",
+							"value": "",
+							"equals": true
+						},
+						{
+							"key": "GameScope",
+							"value": "",
+							"equals": true
+						},
+						{
+							"key": "PlayerExperience",
+							"value": "",
+							"equals": true
+						},
+						{
+							"key": "PlayerPosition",
+							"value": "",
+							"equals": true
+						},
+						{
+							"key": "StarterBench",
+							"value": "",
+							"equals": true
+						},
+						{
+							"key": "VsDivision",
+							"value": "",
+							"equals": true
+						},
+						{
+							"key": "Outcome",
+							"value": "",
+							"equals": true
+						},
+						{
+							"key": "Location",
+							"value": "",
+							"equals": true
+						}
+					]
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
 			"name": "scoreboard",
 			"request": {
 				"method": "GET",

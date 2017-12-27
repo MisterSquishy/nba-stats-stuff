@@ -60,6 +60,51 @@ module.exports = {
     return ret;
   },
   //stuff about what columns to include/exclude for each API
+  LEAGUE_DASHBOARD_API_NEW : {
+    URI : '/stats/leaguedashplayerstats',
+    Params : {
+              'SeasonType':'Regular Season',
+              'MeasureType':'Base',
+              'PerMode':'Per Game',
+              'PlusMinus':'N',
+              'PaceAdjust':'N',
+              'Rank':'N',
+              'Season':'2017-18',
+              'Month':'0',
+              'LastNGames':'0',
+              'Period':'0',
+              'OpponentTeamID':'0',
+              'DateFrom':'',
+              'DateTo':'',
+              'VsConference':'',
+              'GameSegment':'',
+              'SeasonSegment':'',
+              'GameScope':'',
+              'PlayerExperience':'',
+              'PlayerPosition':'',
+              'StarterBench':'',
+              'VsDivision':'',
+              'Outcome':'',
+              'Location':''
+            },
+    DesiredCols : {
+              'PLAYER_NAME':'Name',
+              'TEAM_ABBREVIATION':'Team',
+              'MIN':'Min',
+              'PTS':'Pts',
+              'FG3M':'3Ptrs',
+              'FGM':'FGM',
+              'FGA':'FGA',
+              'FG%':'FG%', //special case, computes %age from prior 2 cols
+              'REB':'Rebs',
+              'AST':'Asts',
+              'STL':'Stls',
+              'BLK':'Blks',
+              'FTM':'FTM',
+              'FTA':'FTA',
+              'FT%':'FT%' //special case, computes %age from prior 2 cols
+            }
+  },
   LEAGUE_DASHBOARD_API : {
     URI : '/stats/leaguedashplayerstats',
     Params : {

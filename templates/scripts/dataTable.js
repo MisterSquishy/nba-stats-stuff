@@ -10,7 +10,7 @@ createTable = function (headers, data) {
     columns: headers,
     data: data,
     footerCallback: footerCallback,
-    order: [[headers.length - 1, "desc"]] //always sort by fpts
+    order: [[0, "asc"]] //always sort by fpts
   });
 }
 setUpFantasyCols = function () {
@@ -95,9 +95,9 @@ footerCallback = function (row, data, start, end, display) {
     if (i === "0") {
       $(api.column( i ).footer()).html('Totals:');
     }
-    else if (parseFloat(i) === (api.columns()[0].length - 1)) {
-      $(api.column( i ).footer()).html(pageTotal + '*');
-    }
+    // else if (parseFloat(i) === (api.columns()[0].length - 1)) {
+    //   $(api.column( i ).footer()).html(pageTotal + '*');
+    // }
     else {
       $(api.column( i ).footer()).html(pageTotal);
     }

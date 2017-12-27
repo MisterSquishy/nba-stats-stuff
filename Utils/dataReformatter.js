@@ -24,7 +24,7 @@ module.exports.reformatNBAPlayerDashboard = function(APIName, headers, rowSet) {
     }
     formattedHeaders.push({title:NBAAPIConstants[APIName].DesiredCols[headers[desiredColIndices[colIndex]]]});
   }
-  if (NBAAPIConstants[APIName].URI === NBAAPIConstants.LEAGUE_DASHBOARD_API.URI) {
+  if (APIName === 'LEAGUE_DASHBOARD_API') {
     formattedHeaders.push({title:"FPts"}); //this is shamefully lazy
   }
 
@@ -52,7 +52,7 @@ module.exports.reformatNBAPlayerDashboard = function(APIName, headers, rowSet) {
       }
       else {
         var num = parseFloat(rowSet[row][desiredColIndices[col]]);
-        formattedRow.push(Math.round(num));
+        formattedRow.push(Math.round(num*10)/10);
         if (formattedHeaders[col].title === NBAAPIConstants.NBA_FGATTEMPTED) {FGA = num;}
         else if (formattedHeaders[col].title === NBAAPIConstants.NBA_FGMADE) {FGM = num;}
         if (!isNaN(parseFloat(FantasyConstants.scoring()[formattedHeaders[col].title]))) {
@@ -60,7 +60,7 @@ module.exports.reformatNBAPlayerDashboard = function(APIName, headers, rowSet) {
         }
       }
     }
-    if (NBAAPIConstants[APIName].URI === NBAAPIConstants.LEAGUE_DASHBOARD_API.URI) {
+    if (APIName === 'LEAGUE_DASHBOARD_API') {
       fPts += (FGA - FGM) * FantasyConstants.scoring()[NBAAPIConstants.NBA_FGATTEMPTED + '-' + NBAAPIConstants.NBA_FGMADE]; //yuck
       formattedRow.push(Math.round(fPts*10)/10);
     }
