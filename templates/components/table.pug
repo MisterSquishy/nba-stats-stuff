@@ -1,5 +1,6 @@
 div(class="tablediv")
     table(id="statstable" class="display" width="100%")
+    include modal.pug
 //- div(class="notesdiv" style="text-align:right;")
 //-     h4 *does not reflect actual fantasy points recorded by starting lineups
 script
@@ -61,6 +62,10 @@ script.
         displayResults = fantasyCols[1];
       }
       redrawTable(displayHeaders, displayResults);
+    });
+    $("#statstable").on('click', 'tr', function () {
+        modalTitle = $('td', this).eq(0).text();
+        $('#modal').modal("show");
     });
     $('#teamselect').trigger("change");
     $('#pointselect').trigger("change");

@@ -2,7 +2,6 @@ var querystring = require('querystring');
 var http = require('http');
 
 var host = 'stats.nba.com';
-var imagehost = 'nba-players.herokuapp.com'
 //nba.com: "I only respond to requests from browsers"
 //also nba.com: "Hi browser, here's a raw data table formatted as JSON"
 var headers = {
@@ -16,7 +15,7 @@ var sessionId;
 
 const emitter = require('./globalEmitter');
 
-module.exports.performRequest = function(endpoint, method, data, imageSearch) {
+module.exports.performRequest = function(endpoint, method, data) {
     var dataString = JSON.stringify(data);
     var endpointName = endpoint;
 
@@ -31,7 +30,7 @@ module.exports.performRequest = function(endpoint, method, data, imageSearch) {
     }
 
     var options = {
-      host: (imageSearch ? imagehost : host),
+      host: host,
       path: endpoint,
       method: method,
       headers: headers
@@ -46,7 +45,7 @@ module.exports.performRequest = function(endpoint, method, data, imageSearch) {
         responseString += data;
       });
 
-      res.on('end', function() {
+      res.on('end', function() {      
         var responseObject = JSON.parse(responseString);
         return emitter.emit(endpointName + 'success', responseObject.resultSets[0]);
       });

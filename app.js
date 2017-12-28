@@ -88,7 +88,6 @@ var processRequest = function() {
     callouts.performRequest(NBAAPIConstants.LEAGUE_SCOREBOARD_API.URI, 'GET', NBAAPIConstants.LEAGUE_SCOREBOARD_API.Params);
     callouts.performRequest(NBAAPIConstants.ALL_PLAYERS_API.URI, 'GET', NBAAPIConstants.ALL_PLAYERS_API.Params);
   }
-  // callouts.performRequest('/players/'+LastName+'/'+FirstName, 'GET', null, true); //todo images??
 };
 
 app.get('/', function (req, res) {

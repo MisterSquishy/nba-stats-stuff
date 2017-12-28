@@ -1,11 +1,30 @@
-button(type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal") Text to be replaced!
-div(class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hidden="true")
+div(class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hidden="true" style="top: 0px !important;")
     div(class="modal-dialog" role="document")
-        div(class="modal-content")
+        div(class="modal-content" style="margin-top: 10rem;")
             div(class="modal-header")
-                h5(class="modal-title" id="exampleModalLabel") Modal title
+                h3(id="modal-title" class="modal-title")
                 button(type="button" class="close" data-dismiss="modal" aria-label="Close") &times;
             div(class="modal-body")
-                h1 hello
+                iframe(id='player-iframe' width='350', height='254' frameBorder='0' scrolling='no' style='padding: 0px;')
             div(class="modal-footer")
                 button(type="button" class="btn btn-primary" data-dismiss="modal") Close
+script.
+  $('#modal').on('show.bs.modal', function() {
+      $('#modal-title').text(modalTitle);
+
+      //all the below just sets up the image iframe
+      var parsedModalTitle = modalTitle.replace(/[^a-zA-Z\- ]/g, "");
+      var firstName = parsedModalTitle.split(' ')[0];
+      var lastName = '';
+      for (i = 1; i < parsedModalTitle.split(' ').length; i++) {
+        lastName += parsedModalTitle.split(' ')[i] + '_';
+      }
+      if (lastName.length > 0) { //frickin nene
+        lastName = lastName.substring(0, lastName.length - 1);
+      }
+      else {
+          lastName = firstName;
+          firstName = '';
+      }
+      $('#player-iframe').attr('src', 'https://nba-players.herokuapp.com/players/' + lastName + '/' + firstName); //ok at this point the player info modal has cannibalized this modal component
+  });
