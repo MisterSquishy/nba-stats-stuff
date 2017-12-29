@@ -63,7 +63,7 @@ script.
       }
       redrawTable(displayHeaders, displayResults);
     });
-    $("#statstable").on('click', 'tr', function () {
+    $("#statstable").on('click', 'tbody tr', function () {
         modalTitle = $('td', this).eq(0).text();
         $('#modal').modal("show");
     });
