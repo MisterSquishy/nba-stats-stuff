@@ -13,8 +13,8 @@ const compiledFunction = pug.compileFile('./templates/home.pug');
 const emitter = require('./Utils/globalEmitter');
 var params = {};
 var completedCallouts = [];
-emitter.on(NBAAPIConstants.LEAGUE_DASHBOARD_API_NEW.URI + 'success', function(result) {
-  var formattedData = dataReformatter.reformatNBAPlayerDashboard('LEAGUE_DASHBOARD_API_NEW', result.headers, result.rowSet);
+emitter.on(NBAAPIConstants.LEAGUE_DASHBOARD_API.URI + 'success', function(result) {
+  var formattedData = dataReformatter.reformatNBAPlayerDashboard('LEAGUE_DASHBOARD_API', result.headers, result.rowSet);
 
   params.dashboardHeaders = formattedData[0];
   params.dashboardRowSet = formattedData[1];
@@ -22,7 +22,7 @@ emitter.on(NBAAPIConstants.LEAGUE_DASHBOARD_API_NEW.URI + 'success', function(re
   params.fantasyScoring = JSON.stringify(FantasyConstants.scoring());
   params.dateOption = dateOption;
 
-  completedCallouts.push(NBAAPIConstants.LEAGUE_DASHBOARD_API_NEW.URI);
+  completedCallouts.push(NBAAPIConstants.LEAGUE_DASHBOARD_API.URI);
   emitter.emit('calloutsuccess');
 });
 emitter.on(NBAAPIConstants.LEAGUE_SCOREBOARD_API.URI + 'success', function(result) {
@@ -71,7 +71,7 @@ var processRequest = function() {
     staticDataLoader.load(dateOption);
   }
   else {
-    var params = JSON.parse(JSON.stringify(NBAAPIConstants.LEAGUE_DASHBOARD_API_NEW.Params)); //really???
+    var params = JSON.parse(JSON.stringify(NBAAPIConstants.LEAGUE_DASHBOARD_API.Params)); //really???
     if (dateOption !== 'Full') {
       var date = new Date();
       if (dateOption === 'Today') {
@@ -84,7 +84,7 @@ var processRequest = function() {
       params.DateFrom = date.toISOString();
       params.DateTo = date.toISOString();
     }
-    callouts.performRequest(NBAAPIConstants.LEAGUE_DASHBOARD_API_NEW.URI, 'GET', params);
+    callouts.performRequest(NBAAPIConstants.LEAGUE_DASHBOARD_API.URI, 'GET', params);
     callouts.performRequest(NBAAPIConstants.LEAGUE_SCOREBOARD_API.URI, 'GET', NBAAPIConstants.LEAGUE_SCOREBOARD_API.Params);
     callouts.performRequest(NBAAPIConstants.ALL_PLAYERS_API.URI, 'GET', NBAAPIConstants.ALL_PLAYERS_API.Params);
   }
