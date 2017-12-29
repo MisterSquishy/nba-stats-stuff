@@ -1,6 +1,36 @@
 var NBAAPIConstants = require('./NBAAPIConstants');
 module.exports = {
   DavidsTheYounger : [
+                    "Nikola Jokic",
+                    "Kawhi Leonard",
+                    "DeMarcus Cousins",
+                    "Giannis Antetokounmpo",
+                    "Andre Drummond",
+                    "Victor Oladipo",
+                    "Damian Lillard",
+                    "Draymond Green",
+                    "Chris Paul",
+                    "Kemba Walker",
+                    "Ben Simmons",
+                    "DeMar DeRozan",
+                    "Clint Capela"
+                  ],
+  DavidsTheWiser : [
+                    "Russell Westbrook",
+                    "Kyle Lowry",
+                    "James Harden",
+                    "Jimmy Butler",
+                    "Stephen Curry",
+                    "Anthony Davis",
+                    "Kristaps Porzingis",
+                    "Kevin Durant",
+                    "Karl-Anthony Towns",
+                    "Paul George",
+                    "Joel Embiid",
+                    "Kevin Love",
+                    "LeBron James"
+                  ],
+  DavidsTheYoungerOld : [
                       "Giannis Antetokounmpo",
                       "Andre Drummond",
                       "Russell Westbrook",
@@ -17,7 +47,7 @@ module.exports = {
                       "Jusuf Nurkic",
                       "James Johnson"
                     ],
-  DavidsTheWiser : [
+  DavidsTheWiserOld : [
                       "Blake Griffin",
                       "Jimmy Butler",
                       "Aaron Gordon",
