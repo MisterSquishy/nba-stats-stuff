@@ -38,7 +38,10 @@ module.exports = {
                       "Steven Adams",
                       "D'Angelo Russell",
                       "Kris Dunn",
-                      "Donovan Mitchell"
+                      "Donovan Mitchell",
+                      "Tim Hardaway Jr.",
+                      "Rodney Hood",
+                      "Allen Crabbe"
                     ],
   scoring : function() {
               var scoreMap = {};
