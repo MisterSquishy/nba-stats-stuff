@@ -1558,7 +1558,7 @@
 			"response": []
 		},
 		{
-			"name": "scoreboard",
+			"name": "scoreboard today",
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -1581,6 +1581,272 @@
 						{
 							"key": "GameDate",
 							"value": "{{today}}",
+							"equals": true
+						},
+						{
+							"key": "LeagueID",
+							"value": "00",
+							"equals": true
+						},
+						{
+							"key": "DayOffset",
+							"value": "0",
+							"equals": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "scoreboard sunday",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "stats.nba.com/stats/scoreboard?GameDate={{sunday}}&LeagueID=00&DayOffset=0",
+					"host": [
+						"stats",
+						"nba",
+						"com"
+					],
+					"path": [
+						"stats",
+						"scoreboard"
+					],
+					"query": [
+						{
+							"key": "GameDate",
+							"value": "{{sunday}}",
+							"equals": true
+						},
+						{
+							"key": "LeagueID",
+							"value": "00",
+							"equals": true
+						},
+						{
+							"key": "DayOffset",
+							"value": "0",
+							"equals": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "scoreboard monday",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "stats.nba.com/stats/scoreboard?GameDate={{monday}}&LeagueID=00&DayOffset=0",
+					"host": [
+						"stats",
+						"nba",
+						"com"
+					],
+					"path": [
+						"stats",
+						"scoreboard"
+					],
+					"query": [
+						{
+							"key": "GameDate",
+							"value": "{{monday}}",
+							"equals": true
+						},
+						{
+							"key": "LeagueID",
+							"value": "00",
+							"equals": true
+						},
+						{
+							"key": "DayOffset",
+							"value": "0",
+							"equals": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "scoreboard tuesday",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "stats.nba.com/stats/scoreboard?GameDate={{tuesday}}&LeagueID=00&DayOffset=0",
+					"host": [
+						"stats",
+						"nba",
+						"com"
+					],
+					"path": [
+						"stats",
+						"scoreboard"
+					],
+					"query": [
+						{
+							"key": "GameDate",
+							"value": "{{tuesday}}",
+							"equals": true
+						},
+						{
+							"key": "LeagueID",
+							"value": "00",
+							"equals": true
+						},
+						{
+							"key": "DayOffset",
+							"value": "0",
+							"equals": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "scoreboard wednesday",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "stats.nba.com/stats/scoreboard?GameDate={{wednesday}}&LeagueID=00&DayOffset=0",
+					"host": [
+						"stats",
+						"nba",
+						"com"
+					],
+					"path": [
+						"stats",
+						"scoreboard"
+					],
+					"query": [
+						{
+							"key": "GameDate",
+							"value": "{{wednesday}}",
+							"equals": true
+						},
+						{
+							"key": "LeagueID",
+							"value": "00",
+							"equals": true
+						},
+						{
+							"key": "DayOffset",
+							"value": "0",
+							"equals": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "scoreboard thursday",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "stats.nba.com/stats/scoreboard?GameDate={{thursday}}&LeagueID=00&DayOffset=0",
+					"host": [
+						"stats",
+						"nba",
+						"com"
+					],
+					"path": [
+						"stats",
+						"scoreboard"
+					],
+					"query": [
+						{
+							"key": "GameDate",
+							"value": "{{thursday}}",
+							"equals": true
+						},
+						{
+							"key": "LeagueID",
+							"value": "00",
+							"equals": true
+						},
+						{
+							"key": "DayOffset",
+							"value": "0",
+							"equals": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "scoreboard friday",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "stats.nba.com/stats/scoreboard?GameDate={{friday}}&LeagueID=00&DayOffset=0",
+					"host": [
+						"stats",
+						"nba",
+						"com"
+					],
+					"path": [
+						"stats",
+						"scoreboard"
+					],
+					"query": [
+						{
+							"key": "GameDate",
+							"value": "{{friday}}",
+							"equals": true
+						},
+						{
+							"key": "LeagueID",
+							"value": "00",
+							"equals": true
+						},
+						{
+							"key": "DayOffset",
+							"value": "0",
+							"equals": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "scoreboard saturday",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "stats.nba.com/stats/scoreboard?GameDate={{saturday}}&LeagueID=00&DayOffset=0",
+					"host": [
+						"stats",
+						"nba",
+						"com"
+					],
+					"path": [
+						"stats",
+						"scoreboard"
+					],
+					"query": [
+						{
+							"key": "GameDate",
+							"value": "{{saturday}}",
 							"equals": true
 						},
 						{
