@@ -31,7 +31,7 @@ $dateEnvironment.values[7].value = Get-Date $lastSunday.AddDays(5) -UFormat "%Y-
 $dateEnvironment.values[8].value = Get-Date $lastSunday.AddDays(6) -UFormat "%Y-%m-%d"
 
 $dateEnvironment | ConvertTo-Json -depth 10 | Set-Content "date.postman_environment.json"
-cmd /c "newman run NBAStats.postman_collection.json -e date.postman_environment.json -r json --reporter-json-export CombinedData.json"
+newman run NBAStats.postman_collection.json -e date.postman_environment.json -r json --reporter-json-export CombinedData.json
 
 # update json files
 $CombinedDataText = Get-Content  -Raw -Path  CombinedData.json
@@ -80,10 +80,10 @@ $data | Set-Content "../allplayers.json"
 
 # push up to heroku
 #GitHub: pdavids02@yahoo.com/TestPassword1!
-cmd.exe /c "git config user.email pdavids02@yahoo.com"
-cmd.exe /c "git config user.name PJDDataUploader"
-cmd.exe /c "git add ../today.json ../yesterday.json ../full.json ../sunday.json ../monday.json ../tuesday.json ../wednesday.json ../thursday.json ../friday.json ../saturday.json ../fullpergame.json ../allplayers.json ../scoreboard.json ../scoreboardSunday.json ../scoreboardMonday.json ../scoreboardTuesday.json ../scoreboardWednesday.json ../scoreboardThursday.json ../scoreboardFriday.json ../scoreboardSaturday.json date.postman_environment.json"
+git config user.email pdavids02@yahoo.com
+git config user.name PJDDataUploader
+git add ../today.json ../yesterday.json ../full.json ../sunday.json ../monday.json ../tuesday.json ../wednesday.json ../thursday.json ../friday.json ../saturday.json ../fullpergame.json ../allplayers.json ../scoreboard.json ../scoreboardSunday.json ../scoreboardMonday.json ../scoreboardTuesday.json ../scoreboardWednesday.json ../scoreboardThursday.json ../scoreboardFriday.json ../scoreboardSaturday.json date.postman_environment.json
 $date = Get-Date
-cmd.exe /c "git commit -m `"Data update $date`""
+git commit -m "`"Data update $date`""
 #Heroku: pdavids02@yahoo.com/DataUploader1!
-cmd.exe /c "git push origin master"
+git push origin master
