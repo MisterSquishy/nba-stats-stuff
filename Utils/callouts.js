@@ -15,6 +15,8 @@ var sessionId;
 
 const emitter = require('./globalEmitter');
 
+//NOTE: I more or less stopped updating this when I found out heroku IPs are blacklisted
+//The data is fetched and uploaded by data/scripts, and then processed by staticDataLoader
 module.exports.performRequest = function(endpoint, method, data) {
     var dataString = JSON.stringify(data);
     var endpointName = endpoint;

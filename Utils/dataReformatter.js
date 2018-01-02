@@ -86,7 +86,7 @@ module.exports.createTodayView = function (headers, rows, scoreboard, allPlayers
   var teamsWithGames = {};
   for (var i in scoreboard) {
     teamsWithGames[scoreboard[i][0]] = NBAAPIConstants.TEAM_ID_TO_ABBR()[scoreboard[i][1]] + ', ' + scoreboard[i][2];
-    teamsWithGames[scoreboard[i][1]] = '@' + NBAAPIConstants.TEAM_ID_TO_ABBR()[scoreboard[i][0]] + ',' + scoreboard[i][2];
+    teamsWithGames[scoreboard[i][1]] = '@' + NBAAPIConstants.TEAM_ID_TO_ABBR()[scoreboard[i][0]] + ', ' + scoreboard[i][2];
   }
 
   return module.exports.addRestOfPlayers(JSON.stringify(headers), rows, allPlayers, teamsWithGames)
