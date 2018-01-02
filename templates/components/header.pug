@@ -16,6 +16,12 @@ header#header
                 option(value="FullPerGame") Per Game
                 option(value="Today") Today
                 option(value="Yesterday") Yesterday
+                //- if sunday show last week
+                //- if (new Date()).getDay() === 0
+                //-     option(value="Weekly") #{new Date((new Date()).setDate((new Date()).getDate() - 7)).toLocaleString('en-US', {year: 'numeric', month: 'numeric', day: 'numeric'}) + '-' +  new Date().toLocaleString('en-US', {year: 'numeric', month: 'numeric', day: 'numeric'})}
+                //- else show this week
+                //- else
+                //-     option(value="Weekly") #{new Date((new Date()).setDate((new Date()).getDate() - (new Date()).getDay())).toLocaleString('en-US', {year: 'numeric', month: 'numeric', day: 'numeric'}) + '-' +  new Date((new Date()).setDate((new Date()).getDate() + 7 - (new Date()).getDay())).toLocaleString('en-US', {year: 'numeric', month: 'numeric', day: 'numeric'})}
         //- div(class="col-xs-1.5")
         //-     select(id="pointselect" class="form-control lead")
         //-         option(value="Real") Real stats

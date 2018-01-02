@@ -13,7 +13,7 @@ const compiledFunction = pug.compileFile('./templates/home.pug');
 const emitter = require('./Utils/globalEmitter');
 var params = {};
 var completedCallouts = [];
-emitter.on(NBAAPIConstants.LEAGUE_DASHBOARD_API_NEW.URI + 'success', function(result) {
+emitter.on(NBAAPIConstants.LEAGUE_DASHBOARD_API_NEW.URI + 'success', function (result) {
   var formattedData = dataReformatter.reformatNBAPlayerDashboard('LEAGUE_DASHBOARD_API_NEW', result.headers, result.rowSet);
 
   params.dashboardHeaders = formattedData[0];
@@ -27,7 +27,6 @@ emitter.on(NBAAPIConstants.LEAGUE_DASHBOARD_API_NEW.URI + 'success', function(re
 });
 emitter.on(NBAAPIConstants.LEAGUE_SCOREBOARD_API.URI + 'success', function(result) {
   var formattedData = dataReformatter.reformatNBAPlayerDashboard('LEAGUE_SCOREBOARD_API', result.headers, result.rowSet);
-
   params.scoreboardRowSet = JSON.parse(formattedData[1]);
 
   completedCallouts.push(NBAAPIConstants.LEAGUE_SCOREBOARD_API.URI);
@@ -43,7 +42,7 @@ emitter.on(NBAAPIConstants.ALL_PLAYERS_API.URI + 'success', function(result) {
 });
 emitter.on('calloutsuccess', function() {
   if (completedCallouts.length === 3) {
-    if (dateOption === 'Today') {
+    if (dateOption === 'Today' || dateOption === 'Weekly') {
       var formattedData = dataReformatter.createTodayView(params.dashboardHeaders, params.dashboardRowSet, params.scoreboardRowSet, params.allPlayersRowSet);
       params.dashboardHeaders = formattedData[0];
       params.dashboardRowSet = formattedData[1];
@@ -124,6 +123,12 @@ app.get('/Full', function (req, res) {
 app.get('/FullPerGame', function (req, res) {
   appRes = res;
   dateOption = 'FullPerGame';
+  processRequest();
+});
+
+app.get('/Weekly', function (req, res) {
+  appRes = res;
+  dateOption = 'Weekly';
   processRequest();
 });
 
