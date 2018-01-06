@@ -1,6 +1,6 @@
 var NBAAPIConstants = require('./NBAAPIConstants');
 var FantasyConstants = require('./FantasyConstants');
-module.exports.reformatNBAPlayerDashboard = function(APIName, headers, rowSet) {
+module.exports.reformatNBAPlayerDashboard = function (APIName, headers, rowSet) {
   var desiredColIndices = [];
   for (var key in NBAAPIConstants[APIName].DesiredCols) {
     if (key.endsWith('%')) {
@@ -85,8 +85,14 @@ module.exports.createTodayView = function (headers, rows, scoreboard, allPlayers
   //find all teams with games today
   var teamsWithGames = {};
   for (var i in scoreboard) {
-    teamsWithGames[scoreboard[i][0]] = NBAAPIConstants.TEAM_ID_TO_ABBR()[scoreboard[i][1]] + ', ' + scoreboard[i][2];
-    teamsWithGames[scoreboard[i][1]] = '@' + NBAAPIConstants.TEAM_ID_TO_ABBR()[scoreboard[i][0]] + ', ' + scoreboard[i][2];
+    var homeTeamGameNum = teamsWithGames[scoreboard[i][0]] ? teamsWithGames[scoreboard[i][0]].total : 0;
+    var awayTeamGameNum = teamsWithGames[scoreboard[i][1]] ? teamsWithGames[scoreboard[i][1]].total : 0;
+    if (homeTeamGameNum === 0) { teamsWithGames[scoreboard[i][0]] = {}; }
+    if (awayTeamGameNum === 0) { teamsWithGames[scoreboard[i][1]] = {};}
+    teamsWithGames[scoreboard[i][0]][homeTeamGameNum] = NBAAPIConstants.TEAM_ID_TO_ABBR()[scoreboard[i][1]] + ', ' + scoreboard[i][2];
+    teamsWithGames[scoreboard[i][1]][awayTeamGameNum] = '@' + NBAAPIConstants.TEAM_ID_TO_ABBR()[scoreboard[i][0]] + ', ' + scoreboard[i][2];
+    teamsWithGames[scoreboard[i][0]].total = homeTeamGameNum + 1;
+    teamsWithGames[scoreboard[i][1]].total = awayTeamGameNum + 1;
   }
 
   return module.exports.addRestOfPlayers(JSON.stringify(headers), rows, allPlayers, teamsWithGames)
@@ -109,27 +115,57 @@ module.exports.addRestOfPlayers = function (headers, rows, allPlayers, teamsWith
   rows = JSON.parse(rows);
   var playersWithStats = {};
   for (var row in rows) {
-    playersWithStats[rows[row][0]] = row;
+    var playerGameNum = playersWithStats[rows[row][0]] ? playersWithStats[rows[row][0]].total : 0;
+    if (playerGameNum === 0) { playersWithStats[rows[row][0]] = {}; }
+    playersWithStats[rows[row][0]][playerGameNum] = row;
+    playersWithStats[rows[row][0]].total = playerGameNum + 1;
   }
   
   //merge in the rest of the players, add game info for the existing players
   var newRows = [];
-  for (var i in allPlayers) {
-    var row = (playersWithStats.hasOwnProperty(allPlayers[i][0])) ? rows[playersWithStats[allPlayers[i][0]]] : []; //use existing stats if we got them
-    for (var j in headers) {
-      if (row.length <= j && j < gameCol) { //add in name and team cols
-        row.push(allPlayers[i][j]);
+  for (var player in allPlayers) {
+    var gameCount = playersWithStats[allPlayers[player][0]] ? playersWithStats[allPlayers[player][0]].total : 1;
+    var playerTeam;
+    for (var playerGameNum = 0; playerGameNum < gameCount; playerGameNum++) {
+      var row = [];
+      if (playersWithStats.hasOwnProperty(allPlayers[player][0])) { //use existing stats if we got them
+        row = rows[playersWithStats[allPlayers[player][0]][playerGameNum]];
       }
-      if (j == gameCol &&
-        teamsWithGames.hasOwnProperty(NBAAPIConstants.TEAM_ABBR_TO_ID[allPlayers[i][j - 1]])) {
-        //this player's team is playing today, add their game
-        row.splice(parseInt(j), 0, teamsWithGames[NBAAPIConstants.TEAM_ABBR_TO_ID[allPlayers[i][j - 1]]]);
+      for (var col in headers) {
+        if (row.length <= col && col < gameCol) { //add in name and team cols
+          row.push(allPlayers[player][col]);
+        }
+        if (col == gameCol &&
+          teamsWithGames.hasOwnProperty(NBAAPIConstants.TEAM_ABBR_TO_ID[allPlayers[player][col - 1]])) {
+          //this player's team is playing today, add their game
+          row.splice(parseInt(col), 0, teamsWithGames[NBAAPIConstants.TEAM_ABBR_TO_ID[allPlayers[player][col - 1]]][playerGameNum]);
+          playerTeam = NBAAPIConstants.TEAM_ABBR_TO_ID[allPlayers[player][col - 1]];
+        }
+        else if (row.length <= col) {
+          row.push('-');
+        }
       }
-      else if (row.length <= j) {
-        row.push('-');
-      }
+      newRows.push(row);
     }
-    newRows.push(row);
+
+    if (teamsWithGames[playerTeam]) { //if we're merging in scoreboard info
+      for (var futureGameNum = gameCount; futureGameNum < teamsWithGames[playerTeam].total; futureGameNum++) {
+        var row = [];
+        for (var col in headers) {
+          if (row.length <= col && col < gameCol) { //add in name and team cols
+            row.push(allPlayers[player][col]);
+          }
+          if (col == gameCol) {
+            //this player's team is playing today, add their game
+            row.splice(parseInt(col), 0, teamsWithGames[playerTeam][futureGameNum]);
+          }
+          else if (row.length <= col) {
+            row.push('-');
+          }
+        }
+        newRows.push(row);
+      }
+    }  
   }
 
   return [JSON.stringify(headers), JSON.stringify(newRows)];
