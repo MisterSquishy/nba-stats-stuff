@@ -148,6 +148,7 @@ module.exports.addRestOfPlayers = function (headers, rows, allPlayers, teamsWith
       newRows.push(row);
     }
 
+    //TODO: If player missed first game of week, stats for second will show up as the first, second will be blank
     if (teamsWithGames[playerTeam]) { //if we're merging in scoreboard info
       for (var futureGameNum = gameCount; futureGameNum < teamsWithGames[playerTeam].total; futureGameNum++) {
         var row = [];
