@@ -158,10 +158,11 @@ module.exports = {
       'LeagueID':'00',
       'DayOffset':'0'
     },
-    DesiredCols : {
+    DesiredCols: {
         'HOME_TEAM_ID':'Team1',
         'VISITOR_TEAM_ID':'Team2',
-        'GAME_STATUS_TEXT':'Status'
+        'GAME_STATUS_TEXT': 'Status',
+        'GAME_DATE_EST':'Date'
     }
   },
   ALL_PLAYERS_API : {

@@ -10,7 +10,9 @@ createTable = function (headers, data) {
     columns: headers,
     data: data,
     footerCallback: footerCallback,
-    order: [[0, "asc"]] //always sort by fpts
+    order: [[0, "asc"]],
+    columnDefs: [{ orderSequence: ["desc", "asc"], "targets": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14] }],
+    fixedHeader: {header: true}
   });
 }
 setUpFantasyCols = function () {

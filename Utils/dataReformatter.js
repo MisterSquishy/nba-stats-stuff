@@ -76,7 +76,8 @@ module.exports.createTodayView = function (headers, rows, scoreboard, allPlayers
   //add column for today's game
   for (var i in headers) {
     if (headers[i].title === NBAAPIConstants.LEAGUE_DASHBOARD_API.DesiredCols.TEAM_ABBREVIATION) {
-      headers.splice(parseInt(i) + 1, 0, {"title":"Game"});
+      headers.splice(parseInt(i) + 1, 0, { "title": "Game" });
+      headers.splice(parseInt(i) + 2, 0, {"title":"Date"});
       gameCol = parseInt(i) + 1;
       break;
     }
@@ -87,10 +88,12 @@ module.exports.createTodayView = function (headers, rows, scoreboard, allPlayers
   for (var i in scoreboard) {
     var homeTeamGameNum = teamsWithGames[scoreboard[i][0]] ? teamsWithGames[scoreboard[i][0]].total : 0;
     var awayTeamGameNum = teamsWithGames[scoreboard[i][1]] ? teamsWithGames[scoreboard[i][1]].total : 0;
-    if (homeTeamGameNum === 0) { teamsWithGames[scoreboard[i][0]] = {}; }
-    if (awayTeamGameNum === 0) { teamsWithGames[scoreboard[i][1]] = {};}
+    if (homeTeamGameNum === 0) { teamsWithGames[scoreboard[i][0]] = {}; teamsWithGames[scoreboard[i][0]].dates = []; }
+    if (awayTeamGameNum === 0) { teamsWithGames[scoreboard[i][1]] = {}; teamsWithGames[scoreboard[i][1]].dates = []; }
     teamsWithGames[scoreboard[i][0]][homeTeamGameNum] = NBAAPIConstants.TEAM_ID_TO_ABBR()[scoreboard[i][1]] + ', ' + scoreboard[i][2];
     teamsWithGames[scoreboard[i][1]][awayTeamGameNum] = '@' + NBAAPIConstants.TEAM_ID_TO_ABBR()[scoreboard[i][0]] + ', ' + scoreboard[i][2];
+    teamsWithGames[scoreboard[i][0]].dates.push(new Date(scoreboard[i][3]).toLocaleString('en-US', {year: 'numeric', month: 'numeric', day: 'numeric'}));
+    teamsWithGames[scoreboard[i][1]].dates.push(new Date(scoreboard[i][3]).toLocaleString('en-US', {year: 'numeric', month: 'numeric', day: 'numeric'}));
     teamsWithGames[scoreboard[i][0]].total = homeTeamGameNum + 1;
     teamsWithGames[scoreboard[i][1]].total = awayTeamGameNum + 1;
   }
@@ -140,6 +143,7 @@ module.exports.addRestOfPlayers = function (headers, rows, allPlayers, teamsWith
           //this player's team is playing today, add their game
           row.splice(parseInt(col), 0, teamsWithGames[NBAAPIConstants.TEAM_ABBR_TO_ID[allPlayers[player][col - 1]]][playerGameNum]);
           playerTeam = NBAAPIConstants.TEAM_ABBR_TO_ID[allPlayers[player][col - 1]];
+          row.splice(parseInt(col) + 1, 0, teamsWithGames[NBAAPIConstants.TEAM_ABBR_TO_ID[allPlayers[player][col - 1]]].dates[playerGameNum]);
         }
         else if (row.length <= col) {
           row.push('-');
@@ -159,6 +163,7 @@ module.exports.addRestOfPlayers = function (headers, rows, allPlayers, teamsWith
           if (col == gameCol) {
             //this player's team is playing today, add their game
             row.splice(parseInt(col), 0, teamsWithGames[playerTeam][futureGameNum]);
+            row.splice(parseInt(col) + 1, 0, teamsWithGames[playerTeam].dates[futureGameNum]);
           }
           else if (row.length <= col) {
             row.push('-');
