@@ -1,3 +1,5 @@
+style
+  include ../styles/dataTable.css
 div(class="tablediv")
     table(id="statstable" class="display" width="100%")
     include modal.pug
@@ -63,8 +65,8 @@ script.
       }
       redrawTable(displayHeaders, displayResults);
     });
-    $("#statstable").on('click', 'tbody tr', function () {
-        modalTitle = $('td', this).eq(0).text();
+    $("#statstable").on('click', 'tbody tr td:first-child', function () {
+        modalTitle = $(this).text();
         $('#modal').modal("show");
     });
     $('#teamselect').trigger("change");
