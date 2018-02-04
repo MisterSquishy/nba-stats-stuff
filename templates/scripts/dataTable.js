@@ -6,7 +6,7 @@ redrawTable = function (headers, data) {
 createTable = function (headers, data) {
   createFooter(headers.length);
   table = $('#statstable').DataTable({
-    pageLength: 50,
+    pageLength: 100,
     columns: headers,
     data: data,
     footerCallback: footerCallback,
