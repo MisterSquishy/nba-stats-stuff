@@ -11,7 +11,7 @@ module.exports.load = function (dateParam) {
   }
   else {
     var dashboardData;
-    for (var dayOfWeek of new Set(['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'])) {
+    for (var dayOfWeek of new Set(['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'])) {
       if (!dashboardData) {
         dashboardData = JSON.parse(JSON.stringify(require('../data/' + dayOfWeek + '.json').resultSets[0])); //clone to avoid weird two-way binding
       }
@@ -22,7 +22,7 @@ module.exports.load = function (dateParam) {
     emitter.emit(NBAAPIConstants.LEAGUE_DASHBOARD_API.URI + 'success', dashboardData);
 
     var scoreboardData;
-    for (var dayOfWeek of new Set(['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'])) {
+    for (var dayOfWeek of new Set(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'])) {
       if (!scoreboardData) {
         scoreboardData = JSON.parse(JSON.stringify(require('../data/scoreboard' + dayOfWeek + '.json').resultSets[0])); //clone to avoid weird two-way binding
       }
