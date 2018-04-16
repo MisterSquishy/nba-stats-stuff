@@ -72,7 +72,7 @@ var processRequest = function() {
   else {
     var params = JSON.parse(JSON.stringify(NBAAPIConstants.LEAGUE_DASHBOARD_API_NEW.Params)); //really???
     if (dateOption !== 'Full') {
-      var date = new Date();
+      var date = new Date('2018-01-22'); //HARDCODED DATES TO MIDSEASON
       if (dateOption === 'Today') {
         //date set by default
       }

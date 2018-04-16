@@ -16,12 +16,13 @@ header#header
                 option(value="FullPerGame") Per Game
                 option(value="Today") Today
                 option(value="Yesterday") Yesterday
+                //- HARDCODED DATES TO MIDSEASON
                 //- if monday show last week
-                if (new Date()).getDay() === 1
-                    option(value="Weekly") #{new Date((new Date()).setDate((new Date()).getDate() - 7)).toLocaleString('en-US', {year: 'numeric', month: 'numeric', day: 'numeric'}) + '-' +  new Date((new Date()).setDate((new Date()).getDate() - 1)).toLocaleString('en-US', {year: 'numeric', month: 'numeric', day: 'numeric'})}
+                if (new Date('2018-01-22')).getDay() === 1
+                    option(value="Weekly") #{new Date((new Date('2018-01-22')).setDate((new Date('2018-01-22')).getDate() - 7)).toLocaleString('en-US', {year: 'numeric', month: 'numeric', day: 'numeric'}) + '-' +  new Date((new Date('2018-01-22')).setDate((new Date('2018-01-22')).getDate() - 1)).toLocaleString('en-US', {year: 'numeric', month: 'numeric', day: 'numeric'})}
                 //- else show this week
                 else
-                    option(value="Weekly") #{new Date((new Date()).setDate((new Date()).getDate() - (new Date()).getDay() + 1)).toLocaleString('en-US', {year: 'numeric', month: 'numeric', day: 'numeric'}) + '-' +  new Date((new Date()).setDate((new Date()).getDate() + 6 - (new Date()).getDay() + 1)).toLocaleString('en-US', {year: 'numeric', month: 'numeric', day: 'numeric'})}
+                    option(value="Weekly") #{new Date((new Date('2018-01-22')).setDate((new Date('2018-01-22')).getDate() - (new Date('2018-01-22')).getDay() + 1)).toLocaleString('en-US', {year: 'numeric', month: 'numeric', day: 'numeric'}) + '-' +  new Date((new Date('2018-01-22')).setDate((new Date('2018-01-22')).getDate() + 6 - (new Date('2018-01-22')).getDay() + 1)).toLocaleString('en-US', {year: 'numeric', month: 'numeric', day: 'numeric'})}
         //- div(class="col-xs-1.5")
         //-     select(id="pointselect" class="form-control lead")
         //-         option(value="Real") Real stats

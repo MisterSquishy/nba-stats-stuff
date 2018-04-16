@@ -19,9 +19,9 @@ Set-Location $(Split-Path $MyInvocation.MyCommand.Path)
 $daysFromMonday = @{"Sunday" = 6; "Monday" = 7; "Tuesday" = 1; "Wednesday" = 2; "Thursday" = 3; "Friday" = 4; "Saturday" = 5;}
 $dateEnvironmentText = Get-Content -Raw -Path date.postman_environment.json
 $dateEnvironment = ConvertFrom-Json –InputObject $dateEnvironmentText
-$dateEnvironment.values[0].value = Get-Date -UFormat "%Y-%m-%d" #param 1 is today
-$dateEnvironment.values[1].value = Get-Date (Get-Date).AddDays(-1) -UFormat "%Y-%m-%d" #param 2 is yesterday
-$lastMonday = (Get-Date).AddDays(-$daysFromMonday.Get_Item([string](Get-Date).DayOfWeek))
+$dateEnvironment.values[0].value = Get-Date -Date 2018-01-22 -UFormat "%Y-%m-%d" #Get-Date -UFormat "%Y-%m-%d" #HARDCODED DATES TO MIDSEASON #param 1 is today
+$dateEnvironment.values[1].value = Get-Date -Date 2018-01-21 -UFormat "%Y-%m-%d" #Get-Date (Get-Date).AddDays(-1) -UFormat "%Y-%m-%d" #HARDCODED DATES TO MIDSEASON #param 2 is yesterday
+$lastMonday = Get-Date -Date 2018-01-15 #(Get-Date).AddDays(-$daysFromMonday.Get_Item([string](Get-Date).DayOfWeek)) #HARDCODED DATES TO MIDSEASON
 $dateEnvironment.values[2].value = Get-Date $lastMonday -UFormat "%Y-%m-%d"
 $dateEnvironment.values[3].value = Get-Date $lastMonday.AddDays(1) -UFormat "%Y-%m-%d"
 $dateEnvironment.values[4].value = Get-Date $lastMonday.AddDays(2) -UFormat "%Y-%m-%d"
